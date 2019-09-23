@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- gif图片参数 -->
+    <declare-styleable name="GifView">  
+        <attr name="gif" format="reference" />  
+        <attr name="paused" format="boolean" />  
+    </declare-styleable>  
+    <declare-styleable name="CustomTheme">  
+        <attr name="gifViewStyle" format="reference" />  
+    </declare-styleable>
+
+    <!-- gif图片2参数 -->
+    <declare-styleable name="PowerImageView">
+        <attr name="auto_play" format="boolean"></attr>
+    </declare-styleable>
+
+    <!-- 圆形图片的参数 -->
+    <declare-styleable name="AvatarImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+
+</resources>

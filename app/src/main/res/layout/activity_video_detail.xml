@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_video_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.youku.cloud.player.YoukuPlayerView
+        android:background="@mipmap/qsmy"
+        android:id="@+id/youku_player_video_detail"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"></com.youku.cloud.player.YoukuPlayerView>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_grey" />
+    <!--<include layout="@layout/custom_comment_head_view"></include>-->
+
+    <!--<com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView-->
+        <!--android:id="@+id/recyclerview_video_detail"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_weight="1"></com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView>-->
+
+
+</LinearLayout>

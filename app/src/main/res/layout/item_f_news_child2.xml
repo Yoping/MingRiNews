@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_item_f_news_child2_line"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+         />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/light_grey" />
+
+    <LinearLayout
+        android:id="@+id/layout_item_f_news_child2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+
+        <TextView
+            android:id="@+id/tv_item_f_news_child2_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="是在县城买房还是回农村盖房？看完这个你就明白了"
+            android:textColor="@color/text_color_dark"
+            android:textSize="16sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tv_item_f_news_child2_content"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:text="是咖啡碱win服务思考vnwifksdsnfie东方红文件符合贷款服务hi俄方上的发挥审计服务看跌房价未开发"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_item_f_news_child2_big_image"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/qsmy"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_item_f_news_child2_big_image_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/tu_button"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="6 图"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/layout_item_f_news_child2_small_image"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/iv_item_f_news_child2_image1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/default_pic" />
+
+
+                <ImageView
+                    android:id="@+id/iv_item_f_news_child2_image2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/default_pic" />
+
+                <ImageView
+                    android:id="@+id/iv_item_f_news_child2_image3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/default_pic" />
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/tv_item_f_news_child2_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="中国新闻网  2017-05-04 17:41"
+            android:textColor="@color/text_color"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

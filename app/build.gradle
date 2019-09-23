@@ -1,0 +1,62 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.yubin.news"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            aaptOptions.cruncherEnabled = false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'armeabi-v7a','x86_64'
+            universalApk true
+        }
+    }
+}
+
+
+repositories{
+    flatDir{
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:design:25.1.1'
+    testCompile 'junit:junit:4.12'
+
+    //Json解析框架
+    compile 'com.google.code.gson:gson:2.8.0'
+    //recycleview的上拉刷新、下拉加载框架
+    compile 'com.wuxiaolong.pullloadmorerecyclerview:library:1.1.2'
+    //图片加载库
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    //网络请求框架
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+
+
+    //优酷SDK
+    compile 'com.alibaba:fastjson:1.1.56.android'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    compile(name: 'YoukuPlayerOpenSDK-release', ext: 'aar')
+}

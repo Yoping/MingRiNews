@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/main_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout_tab"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:background="@color/mainColor"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:id="@+id/layout_tab1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_icon_main_tab1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:textSize="@dimen/activity_main_tab_cion_size" />
+
+
+            <TextView
+                android:id="@+id/tv_main_title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="新闻"
+                android:textSize="@dimen/activity_main_tab_title_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_tab2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_icon_main_tab2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:textSize="@dimen/activity_main_tab_cion_size" />
+
+
+            <TextView
+                android:id="@+id/tv_main_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="视频"
+                android:textSize="@dimen/activity_main_tab_title_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_tab3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_icon_main_tab3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:textSize="@dimen/activity_main_tab_cion_size" />
+
+            <TextView
+                android:id="@+id/tv_main_title3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="图片"
+                android:textSize="@dimen/activity_main_tab_title_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_tab4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_icon_main_tab4"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:textSize="@dimen/activity_main_tab_cion_size" />
+
+            <TextView
+                android:id="@+id/tv_main_title4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的"
+                android:textSize="@dimen/activity_main_tab_title_size" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</FrameLayout>
