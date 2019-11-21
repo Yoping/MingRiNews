@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/qsmy"
+                android:src="@mipmap/default_pic"
                 android:visibility="gone" />
 
             <TextView

@@ -14,6 +14,7 @@ import com.yubin.news.R;
 import com.yubin.news.application.Constants;
 import com.yubin.news.model.toutiaoApi.ToutiaoImageStoryBean;
 import com.yubin.news.ui.activity.ImageDetailActivity;
+import com.yubin.news.utils.GlideUtil;
 import com.yubin.news.utils.LogUtil;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.List;
  * Created by YUBIN on 2017/5/5.
  */
 
-public class ImageFragmentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ImageFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ImageFragmentRecyclerViewAdapter.MyViewHolder> {
 
     private LayoutInflater layoutInflater;
     private Context context;
@@ -62,26 +63,24 @@ public class ImageFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rootview = layoutInflater.inflate(R.layout.item_f_image, parent, false);
         MyViewHolder myViewHolder = new MyViewHolder(rootview);
         return myViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
 
         LogUtil.i("position="+position+"  "+datalist.get(position).getTitle());
-        Glide.with(context).load(datalist.get(position).getImage_url()).into(((MyViewHolder)holder).ivImage);
-//        ((MyViewHolder)holder).ivImage.setImageResource(MyTestUtil.getAImage());
-        ((MyViewHolder)holder).tvTitle.setText(datalist.get(position).getTitle()+"("+ datalist.get(position).getGallary_image_count()+")张");
+//        Glide.with(context).load(datalist.get(position).getImage_url()).into(holder.ivImage);
+        GlideUtil.load(context,datalist.get(position).getImage_url(),holder.ivImage);
+//        holder.ivImage.setImageResource(MyTestUtil.getAImage());
+        holder.tvTitle.setText(datalist.get(position).getTitle()+"("+ datalist.get(position).getGallary_image_count()+")张");
+//        holder.ivImage.setImageResource(MyTestUtil.getAImage());
+//        holder.tvTitle.setText(WorkerUtil.getYuleMessage()+"("+MyTestUtil.random.nextInt(15)+")张");
 
-//        ((MyViewHolder)holder).ivImage.setImageResource(MyTestUtil.getAImage());
-//        ((MyViewHolder)holder).tvTitle.setText(WorkerUtil.getYuleMessage()+"("+MyTestUtil.random.nextInt(15)+")张");
-
-
-
-        ((MyViewHolder) holder).layout.setOnClickListener(new View.OnClickListener() {
+        holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(onItemClickListener!=null){
@@ -94,7 +93,7 @@ public class ImageFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
             }
         });
 
-        ((MyViewHolder) holder).layout.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if(onItemClickListener!=null){

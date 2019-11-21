@@ -22,12 +22,14 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 import com.yubin.news.R;
 import com.yubin.news.application.Constants;
+import com.yubin.news.base.LazyLoadFragment;
 import com.yubin.news.http.youkuApi.YoukuApiManager;
 import com.yubin.news.http.youkuApi.YoukuVideoArrayListener;
 import com.yubin.news.model.youkuApi.YoukuVideoBean;
 import com.yubin.news.ui.activity.MainActivity;
 import com.yubin.news.ui.adapter.NewsChildFragmentRecyclerViewAdapter2;
 import com.yubin.news.ui.adapter.VideoChildFragmentRecyclerViewAdapter;
+import com.yubin.news.ui.customview.CustomProgressDialog;
 import com.yubin.news.ui.customview.DividerItemDecoration;
 import com.yubin.news.utils.LogUtil;
 import com.yubin.news.utils.ToastUtil;
@@ -40,7 +42,7 @@ import java.util.List;
  * Created by YUBIN on 2017/4/1.
  */
 
-public class VideoChildFragment extends Fragment {
+public class VideoChildFragment extends LazyLoadFragment {
 
     private View view;
     private RecyclerView recyclerView;
@@ -64,13 +66,17 @@ public class VideoChildFragment extends Fragment {
         getArgs();
         initview();
         setListener();
+        super.nofityViewCreate();
+        return view;
+    }
+
+    @Override
+    public void getInitData() {
         if(!hasGetData){
-            getData(false);
+            getData(false,true);
         }else{
             recoverData();
         }
-
-        return view;
     }
 
     /**
@@ -88,9 +94,9 @@ public class VideoChildFragment extends Fragment {
     /**
      * 获取网络/测试数据
      */
-    private void getData(boolean isLoadMore){
+    private void getData(boolean isLoadMore,boolean needProgDialog){
         if(isGetApiData){
-            getNetData(isLoadMore);
+            getNetData(isLoadMore,needProgDialog);
         }else{
             getTestData();
         }
@@ -123,7 +129,7 @@ public class VideoChildFragment extends Fragment {
                 datalist.clear();
                 videoNum = 0;
                 pageNum=1;
-                getData(false);
+                getData(false,false);
             }
         });
 
@@ -131,84 +137,48 @@ public class VideoChildFragment extends Fragment {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
                 pageNum++;
-                getData(true);
+                getData(true,false);
             }
         });
 
-//        recyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
-//            @Override
-//            public void onRefresh() {
-//
-//                datalist.clear();
-//                videoNum = 0;
-//                pageNum=1;
-//                getData();
-////                recyclerView.setPullLoadMoreCompleted();
-//
-////                handler.postDelayed(new Runnable() {
-////                    @Override
-////                    public void run() {
-////                        datalist.clear();
-////                        videoNum = 0;
-////                        pageNum=1;
-////                        getData();
-////                        recyclerView.setPullLoadMoreCompleted();
-////                    }
-////                }, 2000);
-//
-//
-//            }
-//
-//            @Override
-//            public void onLoadMore() {
-//
-//
-//                pageNum++;
-//                getData();
-////                recyclerView.setPullLoadMoreCompleted();
-//
-////                handler.postDelayed(new Runnable() {
-////                    @Override
-////                    public void run() {
-////                        pageNum++;
-////                        getData();
-////                        recyclerView.setPullLoadMoreCompleted();
-////                    }
-////                }, 3000);
-//
-//            }
-//        });
 
     }
 
     /**
      * 获取网络数据（优酷）
      */
-    public void getNetData(boolean isLoadMore) {
+    public void getNetData(boolean isLoadMore,boolean needProgDialog) {
 
+        if(needProgDialog){
+            CustomProgressDialog.showDialog(getContext());
+        }
         YoukuApiManager.getCategoryVideoArray(category, YoukuApiManager.periodOfCurrent, YoukuApiManager.OrderBy.view_count, pageNum, getVideoNumEveyTime, new YoukuVideoArrayListener() {
             @Override
             public void onResult(List<YoukuVideoBean> videoList) {
+
                 for(int i=0;i<videoList.size();i++){
                     datalist.add(videoList.get(i));
                 }
                 adapter.setData(datalist);
-                if(!isLoadMore){
-                    refreshLayout.finishRefresh();
-                }else{
-                    refreshLayout.finishLoadMore();
-                }
+                finishedGetData(isLoadMore,needProgDialog);
             }
 
             @Override
             public void onError(String errorInfo) {
-                if(!isLoadMore){
-                    refreshLayout.finishRefresh();
-                }else{
-                    refreshLayout.finishLoadMore();
-                }
+                finishedGetData(isLoadMore,needProgDialog);
             }
         });
+    }
+
+    private void finishedGetData(boolean isLoadMore,boolean needProgDialog){
+        if(needProgDialog){
+            CustomProgressDialog.dismissDialog();
+        }
+        if(!isLoadMore){
+            refreshLayout.finishRefresh();
+        }else{
+            refreshLayout.finishLoadMore();
+        }
     }
 
 

@@ -15,6 +15,7 @@ import com.yubin.news.R;
 import com.yubin.news.application.Constants;
 import com.yubin.news.model.youkuApi.YoukuVideoBean;
 import com.yubin.news.ui.activity.VideoDetailActivity;
+import com.yubin.news.utils.GlideUtil;
 import com.yubin.news.utils.TimeUtil;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.List;
  * Created by YUBIN on 2017/5/5.
  */
 
-public class VideoChildFragmentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class VideoChildFragmentRecyclerViewAdapter extends RecyclerView.Adapter<VideoChildFragmentRecyclerViewAdapter.MyViewHolder> {
 
     private LayoutInflater layoutInflater;
     private Context context;
@@ -85,7 +86,7 @@ public class VideoChildFragmentRecyclerViewAdapter extends RecyclerView.Adapter<
 
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rootview = layoutInflater.inflate(R.layout.item_f_video_child, parent, false);
         MyViewHolder myViewHolder = new MyViewHolder(rootview);
         return myViewHolder;
@@ -94,49 +95,49 @@ public class VideoChildFragmentRecyclerViewAdapter extends RecyclerView.Adapter<
 
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         String imageUrl=datalist.get(position).getBigThumbnail();
         //https的地址无法取到数据，改用http获取
         imageUrl=imageUrl.replace("https","http");
-        Glide.with(context).load(imageUrl).into(((MyViewHolder)holder).ivImage);
-        ((MyViewHolder)holder).tvTitle.setText(datalist.get(position).getTitle());
-        ((MyViewHolder)holder).tvTime.setText(TimeUtil.changeIntTimeToString(datalist.get(position).getDuration()));
-        ((MyViewHolder)holder).tvWatchNum.setText(datalist.get(position).getView_count()+"");
-        ((MyViewHolder)holder).tvUpNum.setText(datalist.get(position).getUp_count()+"");
-        ((MyViewHolder)holder).tvCommentNum.setText(datalist.get(position).getComment_count()+"");
+        GlideUtil.load(context,imageUrl,holder.ivImage);
+        holder.tvTitle.setText(datalist.get(position).getTitle());
+        holder.tvTime.setText(TimeUtil.changeIntTimeToString(datalist.get(position).getDuration()));
+        holder.tvWatchNum.setText(datalist.get(position).getView_count()+"");
+        holder.tvUpNum.setText(datalist.get(position).getUp_count()+"");
+        holder.tvCommentNum.setText(datalist.get(position).getComment_count()+"");
 
-        ((MyViewHolder)holder).tvIconWatchNum.setTypeface(getTypeface());
-        ((MyViewHolder)holder).tvIconUpNum.setTypeface(getTypeface());
-        ((MyViewHolder)holder).tvIconCommentNum.setTypeface(getTypeface());
+        holder.tvIconWatchNum.setTypeface(getTypeface());
+        holder.tvIconUpNum.setTypeface(getTypeface());
+        holder.tvIconCommentNum.setTypeface(getTypeface());
 
         /**
          *显示点赞状态
          */
         if(hasUp.get(position)){
-            ((MyViewHolder)holder).tvIconUpNum.setTextColor(context.getResources().getColor(R.color.red));
+            holder.tvIconUpNum.setTextColor(context.getResources().getColor(R.color.red));
         }else{
-            ((MyViewHolder)holder).tvIconUpNum.setTextColor(context.getResources().getColor(R.color.grey));
+            holder.tvIconUpNum.setTextColor(context.getResources().getColor(R.color.grey));
         }
 
-        ((MyViewHolder)holder).tvIconUpNum.setOnClickListener(new View.OnClickListener() {
+        holder.tvIconUpNum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /**
                  * 设置点赞图标的点击事件
                  */
                 if(hasUp.get(position)){
-                    ((MyViewHolder)holder).tvIconUpNum.setTextColor(context.getResources().getColor(R.color.grey));
+                    holder.tvIconUpNum.setTextColor(context.getResources().getColor(R.color.grey));
                     hasUp.set(position,false);
                 }else{
-                    ((MyViewHolder)holder).tvIconUpNum.setTextColor(context.getResources().getColor(R.color.red));
+                    holder.tvIconUpNum.setTextColor(context.getResources().getColor(R.color.red));
                     hasUp.set(position,true);
                 }
             }
         });
 
 
-        ((MyViewHolder)holder).layout.setOnClickListener(new View.OnClickListener() {
+        holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(onItemClickListener!=null){

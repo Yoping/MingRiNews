@@ -44,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         /**
          * 设置状态栏为白色，4.4以下无法将状态栏颜色设置为深色，会存在看不清图标的情况
          */
-        StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.white));
+        StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.mainColor));
         MyApplication.addActivity(this);
 //        PushAgent.getInstance(this).onAppStart();
         ButterKnife.bind(this);
