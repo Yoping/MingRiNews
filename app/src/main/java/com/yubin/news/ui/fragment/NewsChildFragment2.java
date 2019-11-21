@@ -28,7 +28,9 @@ import com.yubin.news.http.toutiaoApi.ToutiaoNewsType;
 import com.yubin.news.model.toutiaoApi.TouTiaoNewsBean;
 import com.yubin.news.ui.activity.MainActivity;
 import com.yubin.news.ui.adapter.NewsChildFragmentRecyclerViewAdapter2;
+import com.yubin.news.ui.customview.CustomProgressDialog;
 import com.yubin.news.ui.customview.DividerItemDecoration;
+import com.yubin.news.utils.LogUtil;
 import com.yubin.news.utils.SharedPreferencesUtil;
 import com.yubin.news.utils.ToastUtil;
 
@@ -41,6 +43,7 @@ import java.util.List;
  */
 
 public class NewsChildFragment2 extends Fragment {
+    public String tag="newsChildFragment2";
 
     private View view;
     private RecyclerView recyclerView;
@@ -82,6 +85,11 @@ public class NewsChildFragment2 extends Fragment {
     private int biggestCacheKey=0;
     private boolean isFirstCacheData=true;
 
+    //懒加载标识符
+    private boolean isViewCreate=false;
+    private boolean isViewVisible=false;
+    private boolean isDataInited=false;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -98,9 +106,28 @@ public class NewsChildFragment2 extends Fragment {
         }else{
             isFirstCacheData=false;
         }
-        getData(false);
+        isViewCreate=true;
+        lazyLoad();
         return view;
     }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        LogUtil.debug(tag,"setUserVisibleHint:"+isVisibleToUser);
+        isViewVisible=isVisibleToUser;
+        lazyLoad();
+    }
+
+    private void lazyLoad(){
+        LogUtil.debug(tag,"lazyLoad");
+        if(isViewCreate&&isViewVisible&&(!isDataInited)){
+            getData(true);
+            isDataInited=true;
+        }
+    }
+
 
     /**
      * 获取父控件传递过来的相关参数
@@ -158,7 +185,6 @@ public class NewsChildFragment2 extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-//                        getNetData(true);
                         refreshLayout.finishRefresh();
                         ToastUtil.show(getActivity(),"已经是最新的数据！");
                     }
@@ -175,61 +201,9 @@ public class NewsChildFragment2 extends Fragment {
 
 
 //                ((NewsFragment)getParentFragment()).hideSearchView();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-//                        getNetData(true);
-                        refreshLayout.finishLoadMore();
-                        ToastUtil.show(getActivity(),"已经是最新的数据！");
-                    }
-                }, 1000);
+                getData(true);
             }
         });
-
-
-
-//        recyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
-//            @Override
-//            public void onRefresh() {
-////                getData(true);
-////                recyclerView.setPullLoadMoreCompleted();
-//
-//                if(((MainActivity)getActivity()).getNewsFragment()!=null){
-//                    ((MainActivity)getActivity()).getNewsFragment().hideSearchView();
-//                }
-//
-//
-////                ((NewsFragment)getParentFragment()).hideSearchView();
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        getNetData(true);
-//                        recyclerView.setPullLoadMoreCompleted();
-//                        ToastUtil.show(getActivity(),"已经是最新的数据！");
-//                    }
-//                }, 1000);
-//            }
-//
-//            @Override
-//            public void onLoadMore() {
-//                /**
-//                 * 第一次打开该页面，没有缓存过数据，每次都获取新的数据
-//                 */
-//                if(isFirstCacheData){
-//                    getData(true);
-//                }else{
-//                    getData(false);
-//                }
-//
-////                handler.postDelayed(new Runnable() {
-////                    @Override
-////                    public void run() {
-////                        recyclerView.setPullLoadMoreCompleted();
-////                    }
-////                }, 10);
-//
-//            }
-//        });
 
     }
 
@@ -267,12 +241,12 @@ public class NewsChildFragment2 extends Fragment {
             }
         }
 
-//        CustomProgressDialog.showDialog(getActivity());
+        CustomProgressDialog.showDialog(getActivity());
 
         ToutiaoApiManager.getSomeNews(getActivity(),ToutiaoNewsType.getTypeEnglish(newsType),dataKey, getNetData,new ToutiaoGetSomeNewsListener() {
             @Override
             public void onResult(List<TouTiaoNewsBean> newsList,boolean getNetData,boolean isCacheData) {
-//                CustomProgressDialog.dismissDialog();
+                CustomProgressDialog.dismissDialog();
                 for(int i=0;i<newsList.size();i++){
                     datalist.add(newsList.get(i));
 
@@ -293,71 +267,10 @@ public class NewsChildFragment2 extends Fragment {
 
             @Override
             public void onError(String errorInfo) {
-
+                CustomProgressDialog.dismissDialog();
             }
         });
 
-
-//        ToutiaoApiManagerOkHttp.getSomeNews(getActivity(),ToutiaoNewsType.getTypeEnglish(newsType),dataKey, getNetData,new ToutiaoGetSomeNewsListener() {
-//            @Override
-//            public void onResult(List<TouTiaoNewsBean> newsList,boolean getNetData,boolean isCacheData) {
-//                CustomProgressDialog.dismissDialog();
-//                for(int i=0;i<newsList.size();i++){
-//                    datalist.add(newsList.get(i));
-//
-////                    if(getNetData){
-////                        datalist.add(0,newsList.get(i));
-////                    }else{
-////                        /**
-////                         * 获取缓存数据时，如果没有缓存，就会去获取去获取网络，
-////                         * 这时不管是以哪种方式得到的数据都放到最后
-////                         */
-////                        datalist.add(newsList.get(i));
-////                    }
-//
-//                }
-//                getActivity().runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        recyclerView.setPullLoadMoreCompleted();
-//                        adapter.setData(datalist);
-//                    }
-//                });
-//
-//
-//            }
-//
-//            @Override
-//            public void onError(String errorInfo) {
-//
-//            }
-//        });
-
-
-
-
-
-
-//        JuheApiManager.getNews(JuheNewsType.getTypePinying(newsType), new JuheGetNewsListener() {
-//            @Override
-//            public void onResult(List<JuheNewsBean> newsList) {
-//                for (int i = 0; i < newsList.size(); i++) {
-//                    LogUtil.i("title=" + newsList.get(i).getTitle());
-//                    LogUtil.i(newsList.get(i).getUrl());
-//                    LogUtil.i("image1=" + newsList.get(i).getThumbnail_pic_s());
-//                    LogUtil.i("image2=" + newsList.get(i).getThumbnail_pic_s02());
-//                    LogUtil.i("image3=" + newsList.get(i).getThumbnail_pic_s03());
-//                    datalist.add(newsList.get(i));
-//                }
-//                adapter.notifyDataSetChanged();
-//                hasGetData=true;
-//            }
-//
-//            @Override
-//            public void onError(String errorInfo) {
-//
-//            }
-//        });
     }
 
     @Override

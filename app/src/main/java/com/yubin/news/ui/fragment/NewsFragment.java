@@ -35,8 +35,6 @@ public class NewsFragment extends Fragment{
 
     private TablayoutFragmentStatePagerAdapter tablayoutFragmentStatePagerAdapter;
 
-//    private boolean isUseToutiaoData=true;
-
     private float x=0;
     private float y=0;
 

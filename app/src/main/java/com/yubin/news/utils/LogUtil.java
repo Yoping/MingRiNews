@@ -27,6 +27,14 @@ public class LogUtil {
         Log.i(tag+"=========",text);
     }
 
+    public static void debug(String tag,String text){
+        Log.d(tag,text);
+    }
+
+    public static void debug(String text){
+        Log.d("========",text);
+    }
+
     //规定每段显示的长度
     private static int LOG_MAXLENGTH = 2000;
 

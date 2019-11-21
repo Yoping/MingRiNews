@@ -44,6 +44,9 @@ public class MyApplication extends Application {
     public static MyApplication getInstance() {
         return instance;
     }
+    public static Context getContext(){
+        return instance.getApplicationContext();
+    }
 
     @Override
     public void onCreate() {
@@ -103,7 +106,7 @@ public class MyApplication extends Application {
      *
      * @param act
      */
-    public void removeActivity(Activity act) {
+    public static void removeActivity(Activity act) {
         if (!activityList.contains(act))
             activityList.remove(act);
     }
