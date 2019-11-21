@@ -6,6 +6,7 @@ import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +23,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 import com.yubin.news.R;
 import com.yubin.news.application.Constants;
+import com.yubin.news.base.LazyLoadFragment;
 import com.yubin.news.http.toutiaoApi.ToutiaoApiManager;
 import com.yubin.news.http.toutiaoApi.ToutiaoGetSomeNewsListener;
 import com.yubin.news.http.toutiaoApi.ToutiaoNewsType;
@@ -42,8 +44,8 @@ import java.util.List;
  * Created by YUBIN on 2017/4/1.
  */
 
-public class NewsChildFragment2 extends Fragment {
-    public String tag="newsChildFragment2";
+public class NewsChildFragment2 extends LazyLoadFragment {
+    public String tag = "====newsChildFragment2====";
 
     private View view;
     private RecyclerView recyclerView;
@@ -55,7 +57,7 @@ public class NewsChildFragment2 extends Fragment {
     /**
      * 新闻类型
      */
-    private int newsType=0;
+    private int newsType = 0;
 
     /**
      * 将数据添加到什么位置
@@ -63,9 +65,9 @@ public class NewsChildFragment2 extends Fragment {
      * 2.尾部
      * 3.未知
      */
-    private static final int ADD_DATA_IN_HEAD=1;
-    private static final int ADD_DATA_IN_TAIL=2;
-    private static final int ADD_DATA_IN_UNKONW=3;
+    private static final int ADD_DATA_IN_HEAD = 1;
+    private static final int ADD_DATA_IN_TAIL = 2;
+    private static final int ADD_DATA_IN_UNKONW = 3;
 
     /**
      * 获取数据的方式
@@ -73,85 +75,73 @@ public class NewsChildFragment2 extends Fragment {
      * 2.缓存数据
      * 3.未知
      */
-    private static final int GET_NET_DATA=1;
-    private static final int GET_CACHE_DATA=2;
-    private static final int GET_UNKNOW_DATA=3;
+    private static final int GET_NET_DATA = 1;
+    private static final int GET_CACHE_DATA = 2;
+    private static final int GET_UNKNOW_DATA = 3;
 
 
     /**
      * 记录本次打开APP时的第几次获取数据，作为缓存变量值
      */
-    private int dataKeyOfToday=0;
-    private int biggestCacheKey=0;
-    private boolean isFirstCacheData=true;
+    private int dataKeyOfToday = 0;
+    private int biggestCacheKey = 0;
+    private boolean isFirstCacheData = true;
 
     //懒加载标识符
-    private boolean isViewCreate=false;
-    private boolean isViewVisible=false;
-    private boolean isDataInited=false;
+    private boolean isViewCreate = false;
+    private boolean isViewVisible = false;
+    private boolean isDataInited = false;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
+        LogUtil.debug(tag,"onCreateView");
         view = inflater.inflate(R.layout.fragment_news_child2, null);
         getArgs();
         initview();
         setListener();
-        /**
-         * 得到上次关闭APP时缓存的数据数量
-         */
-        biggestCacheKey= SharedPreferencesUtil.getInt(ToutiaoNewsType.getTypeEnglish(newsType),-1);
-        if(biggestCacheKey==(-1)){
-            isFirstCacheData=true;
-        }else{
-            isFirstCacheData=false;
-        }
-        isViewCreate=true;
-        lazyLoad();
+//        /**
+//         * 得到上次关闭APP时缓存的数据数量
+//         */
+//        biggestCacheKey = SharedPreferencesUtil.getInt(ToutiaoNewsType.getTypeEnglish(newsType), -1);
+//        if (biggestCacheKey == (-1)) {
+//            isFirstCacheData = true;
+//        } else {
+//            isFirstCacheData = false;
+//        }
+        super.nofityViewCreate();
         return view;
     }
 
-
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        LogUtil.debug(tag,"setUserVisibleHint:"+isVisibleToUser);
-        isViewVisible=isVisibleToUser;
-        lazyLoad();
-    }
-
-    private void lazyLoad(){
-        LogUtil.debug(tag,"lazyLoad");
-        if(isViewCreate&&isViewVisible&&(!isDataInited)){
-            getData(true);
-            isDataInited=true;
-        }
+    public void getInitData() {
+        getData(true, true);
     }
 
 
     /**
      * 获取父控件传递过来的相关参数
      */
-    private void getArgs(){
-        Bundle bundle=getArguments();
-        newsType=bundle.getInt(Constants.KEY_NEWS_TYPE);
+    public void getArgs() {
+        Bundle bundle = getArguments();
+        newsType = bundle.getInt(Constants.KEY_NEWS_TYPE);
     }
 
 
     /**
      * 初始化界面
      */
-    private void initview() {
+    public void initview() {
         recyclerView = view.findViewById(R.id.recyclerView_f_news_child2);
-        refreshLayout=view.findViewById(R.id.refreshLayout_f_news_child2);
+        refreshLayout = view.findViewById(R.id.refreshLayout_f_news_child2);
         adapter = new NewsChildFragmentRecyclerViewAdapter2(getActivity(), datalist);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
-        if(datalist.size()==0){
-            TouTiaoNewsBean temp=new TouTiaoNewsBean();
+        if (datalist.size() == 0) {
+            TouTiaoNewsBean temp = new TouTiaoNewsBean();
             temp.setTitle("占位符");
             datalist.add(temp);
         }
@@ -160,7 +150,7 @@ public class NewsChildFragment2 extends Fragment {
     /**
      * 设置监听
      */
-    private void setListener() {
+    public void setListener() {
 
         adapter.setOnItemClickListener(new NewsChildFragmentRecyclerViewAdapter2.OnItemClickListener() {
             @Override
@@ -177,16 +167,16 @@ public class NewsChildFragment2 extends Fragment {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
-                if(((MainActivity)getActivity()).getNewsFragment()!=null){
-                    ((MainActivity)getActivity()).getNewsFragment().hideSearchView();
+                if (((MainActivity) getActivity()).getNewsFragment() != null) {
+                    ((MainActivity) getActivity()).getNewsFragment().hideSearchView();
                 }
 
-//                ((NewsFragment)getParentFragment()).hideSearchView();
+//                ((NewsFragment) getParentFragment()).hideSearchView();//控制针？
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         refreshLayout.finishRefresh();
-                        ToastUtil.show(getActivity(),"已经是最新的数据！");
+                        ToastUtil.show(getActivity(), "已经是最新的数据！");
                     }
                 }, 1000);
             }
@@ -195,13 +185,11 @@ public class NewsChildFragment2 extends Fragment {
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
-                if(((MainActivity)getActivity()).getNewsFragment()!=null){
-                    ((MainActivity)getActivity()).getNewsFragment().hideSearchView();
+                if (((MainActivity) getActivity()).getNewsFragment() != null) {
+                    ((MainActivity) getActivity()).getNewsFragment().hideSearchView();
                 }
-
-
-//                ((NewsFragment)getParentFragment()).hideSearchView();
-                getData(true);
+//                ((NewsFragment) getParentFragment()).hideSearchView();//空指针？
+                getData(true, false);
             }
         });
 
@@ -210,44 +198,47 @@ public class NewsChildFragment2 extends Fragment {
     /**
      * 获取数据
      */
-    public void getData(boolean getNetData) {
+    public void getData(boolean getNetData, boolean needProgDialog) {
         final int dataKey;
-        if(getNetData){
+        if (getNetData) {
             /**
              * 获取网络数据
              */
             dataKeyOfToday++;
-            dataKey=dataKeyOfToday;
-            if(dataKeyOfToday>biggestCacheKey){
-                biggestCacheKey=dataKeyOfToday;
+            dataKey = dataKeyOfToday;
+            if (dataKeyOfToday > biggestCacheKey) {
+                biggestCacheKey = dataKeyOfToday;
             }
-        }else{
-            if(biggestCacheKey>0){
+        } else {
+            if (biggestCacheKey > 0) {
                 /**
                  * 依次拿最新的缓存数据
                  */
-                dataKey=biggestCacheKey;
+                dataKey = biggestCacheKey;
                 biggestCacheKey--;
-            }else{
+            } else {
                 /**
                  * 缓存数据取完了,获取新的网络数据
                  */
-                getNetData=true;
+                getNetData = true;
                 dataKeyOfToday++;
-                dataKey=dataKeyOfToday;
-                if(dataKeyOfToday>biggestCacheKey){
-                    biggestCacheKey=dataKeyOfToday;
+                dataKey = dataKeyOfToday;
+                if (dataKeyOfToday > biggestCacheKey) {
+                    biggestCacheKey = dataKeyOfToday;
                 }
             }
         }
 
-        CustomProgressDialog.showDialog(getActivity());
+        if (needProgDialog) {
+            CustomProgressDialog.showDialog(getActivity());
+        }
 
-        ToutiaoApiManager.getSomeNews(getActivity(),ToutiaoNewsType.getTypeEnglish(newsType),dataKey, getNetData,new ToutiaoGetSomeNewsListener() {
+
+        ToutiaoApiManager.getSomeNews(getActivity(), ToutiaoNewsType.getTypeEnglish(newsType), dataKey, getNetData, new ToutiaoGetSomeNewsListener() {
             @Override
-            public void onResult(List<TouTiaoNewsBean> newsList,boolean getNetData,boolean isCacheData) {
+            public void onResult(List<TouTiaoNewsBean> newsList, boolean getNetData, boolean isCacheData) {
                 CustomProgressDialog.dismissDialog();
-                for(int i=0;i<newsList.size();i++){
+                for (int i = 0; i < newsList.size(); i++) {
                     datalist.add(newsList.get(i));
 
 //                    if(getNetData){
@@ -279,6 +270,6 @@ public class NewsChildFragment2 extends Fragment {
         /**
          * 记录上次打开APP时该页面缓存了多少次数据
          */
-        SharedPreferencesUtil.putInt(ToutiaoNewsType.getTypeEnglish(newsType),dataKeyOfToday);
+        SharedPreferencesUtil.putInt(ToutiaoNewsType.getTypeEnglish(newsType), dataKeyOfToday);
     }
 }
