@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager_f_news"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"></androidx.viewpager.widget.ViewPager>
 
 
     <LinearLayout
@@ -50,7 +50,7 @@
 
         </LinearLayout>
 
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/tablayout_f_news"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -59,7 +59,7 @@
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/white"
 
-            app:tabTextColor="@color/white"></android.support.design.widget.TabLayout>
+            app:tabTextColor="@color/white"></com.google.android.material.tabs.TabLayout>
 
 
     </LinearLayout>

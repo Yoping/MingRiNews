@@ -2,11 +2,21 @@ package com.yubin.news.application;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.youku.cloud.player.YoukuPlayerConfig;
+import com.yubin.news.R;
 import com.yubin.news.utils.LogUtil;
 import com.yubin.news.utils.SharedPreferencesUtil;
 import com.yubin.news.utils.WorkerUtil;
@@ -25,6 +35,8 @@ public class MyApplication extends Application {
 
     public static List<Activity> activityList;
     public static MyApplication instance;
+
+    public static boolean isUseToutiaoData=true;
 
     public MyApplication() {
     }
@@ -45,6 +57,26 @@ public class MyApplication extends Application {
         /****sdk初始化*/
 //        YoukuPlayerConfig.onInitial((Application) getApplicationContext());
         initVolley();
+    }
+
+    //static 代码段可以防止内存泄露
+    static {
+        //设置全局的Header构建器
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
+            @Override
+            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+                layout.setPrimaryColorsId(R.color.mainColor, android.R.color.white);//全局设置主题颜色
+                return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
+            }
+        });
+        //设置全局的Footer构建器
+        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
+            @Override
+            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+                //指定为经典Footer，默认是 BallPulseFooter
+                return new ClassicsFooter(context).setDrawableSize(20);
+            }
+        });
     }
 
     private static RequestQueue requestQueue;

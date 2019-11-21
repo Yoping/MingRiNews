@@ -2,12 +2,22 @@ package com.yubin.news.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 import com.yubin.news.R;
 import com.yubin.news.http.toutiaoApi.ToutiaoApiManager;
@@ -15,7 +25,6 @@ import com.yubin.news.http.toutiaoApi.ToutiaoGetImageStoryArrayListener;
 import com.yubin.news.model.toutiaoApi.ToutiaoImageStoryBean;
 import com.yubin.news.ui.adapter.ImageFragmentRecyclerViewAdapter;
 import com.yubin.news.ui.customview.DividerGridItemDecoration;
-import com.yubin.news.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +37,8 @@ import java.util.List;
 public class ImageFragment extends Fragment {
 
     private View view;
-    private PullLoadMoreRecyclerView pullLoadMoreRecyclerView;
+    private RecyclerView recyclerView;
+    private SmartRefreshLayout refreshLayout;
     private ImageFragmentRecyclerViewAdapter adapter;
     private List<ToutiaoImageStoryBean> datalist=new ArrayList<>();
     private Handler handler=new Handler();
@@ -43,37 +53,67 @@ public class ImageFragment extends Fragment {
     }
 
     private void initview(){
-        pullLoadMoreRecyclerView=(PullLoadMoreRecyclerView)view.findViewById(R.id.recyclerview_f_image);
+        recyclerView = view.findViewById(R.id.recyclerView_f_image);
+        refreshLayout=view.findViewById(R.id.refreshLayout_f_image);
         adapter=new ImageFragmentRecyclerViewAdapter(getActivity(),datalist);
-        pullLoadMoreRecyclerView.setAdapter(adapter);
-        pullLoadMoreRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
-        pullLoadMoreRecyclerView.setGridLayout(2);
-        pullLoadMoreRecyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        recyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh() {
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         datalist.clear();
                         adapter.notifyDataSetChanged();
                         getData();
-                        pullLoadMoreRecyclerView.setPullLoadMoreCompleted();
-                    }
-                },1000);
-            }
-
-            @Override
-            public void onLoadMore() {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getData();
-//                        pullLoadMoreRecyclerView.refresh();
-                        pullLoadMoreRecyclerView.setPullLoadMoreCompleted();
+                        refreshLayout.finishRefresh();
                     }
                 },1000);
             }
         });
+
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getData();
+                        refreshLayout.finishLoadMoreWithNoMoreData();
+                    }
+                },1000);
+            }
+        });
+
+//        pullLoadMoreRecyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+//            @Override
+//            public void onRefresh() {
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        datalist.clear();
+//                        adapter.notifyDataSetChanged();
+//                        getData();
+//                        pullLoadMoreRecyclerView.setPullLoadMoreCompleted();
+//                    }
+//                },1000);
+//            }
+//
+//            @Override
+//            public void onLoadMore() {
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        getData();
+////                        pullLoadMoreRecyclerView.refresh();
+//                        pullLoadMoreRecyclerView.setPullLoadMoreCompleted();
+//                    }
+//                },1000);
+//            }
+//        });
         getData();
 
     }

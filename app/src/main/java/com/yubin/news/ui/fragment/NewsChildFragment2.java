@@ -2,25 +2,32 @@ package com.yubin.news.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 import com.yubin.news.R;
 import com.yubin.news.application.Constants;
 import com.yubin.news.http.toutiaoApi.ToutiaoApiManager;
-import com.yubin.news.http.toutiaoApi.ToutiaoApiManagerOkHttp;
 import com.yubin.news.http.toutiaoApi.ToutiaoGetSomeNewsListener;
 import com.yubin.news.http.toutiaoApi.ToutiaoNewsType;
 import com.yubin.news.model.toutiaoApi.TouTiaoNewsBean;
 import com.yubin.news.ui.activity.MainActivity;
 import com.yubin.news.ui.adapter.NewsChildFragmentRecyclerViewAdapter2;
-import com.yubin.news.ui.customview.CustomProgressDialog;
 import com.yubin.news.ui.customview.DividerItemDecoration;
 import com.yubin.news.utils.SharedPreferencesUtil;
 import com.yubin.news.utils.ToastUtil;
@@ -36,7 +43,8 @@ import java.util.List;
 public class NewsChildFragment2 extends Fragment {
 
     private View view;
-    private PullLoadMoreRecyclerView recyclerView;
+    private RecyclerView recyclerView;
+    private SmartRefreshLayout refreshLayout;
     private NewsChildFragmentRecyclerViewAdapter2 adapter;
     private List<TouTiaoNewsBean> datalist = new LinkedList<>();
     private Handler handler = new Handler();
@@ -107,12 +115,13 @@ public class NewsChildFragment2 extends Fragment {
      * 初始化界面
      */
     private void initview() {
-        recyclerView = (PullLoadMoreRecyclerView) view.findViewById(R.id.recyclerview_f_news_child2);
+        recyclerView = view.findViewById(R.id.recyclerView_f_news_child2);
+        refreshLayout=view.findViewById(R.id.refreshLayout_f_news_child2);
         adapter = new NewsChildFragmentRecyclerViewAdapter2(getActivity(), datalist);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLinearLayout();
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
 
         if(datalist.size()==0){
             TouTiaoNewsBean temp=new TouTiaoNewsBean();
@@ -138,13 +147,28 @@ public class NewsChildFragment2 extends Fragment {
             }
         });
 
-
-        recyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh() {
-//                getData(true);
-//                recyclerView.setPullLoadMoreCompleted();
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                if(((MainActivity)getActivity()).getNewsFragment()!=null){
+                    ((MainActivity)getActivity()).getNewsFragment().hideSearchView();
+                }
 
+//                ((NewsFragment)getParentFragment()).hideSearchView();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+//                        getNetData(true);
+                        refreshLayout.finishRefresh();
+                        ToastUtil.show(getActivity(),"已经是最新的数据！");
+                    }
+                }, 1000);
+            }
+        });
+
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
                 if(((MainActivity)getActivity()).getNewsFragment()!=null){
                     ((MainActivity)getActivity()).getNewsFragment().hideSearchView();
                 }
@@ -155,32 +179,57 @@ public class NewsChildFragment2 extends Fragment {
                     @Override
                     public void run() {
 //                        getNetData(true);
-                        recyclerView.setPullLoadMoreCompleted();
+                        refreshLayout.finishLoadMore();
                         ToastUtil.show(getActivity(),"已经是最新的数据！");
                     }
                 }, 1000);
             }
+        });
 
-            @Override
-            public void onLoadMore() {
-                /**
-                 * 第一次打开该页面，没有缓存过数据，每次都获取新的数据
-                 */
-                if(isFirstCacheData){
-                    getData(true);
-                }else{
-                    getData(false);
-                }
 
+
+//        recyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+//            @Override
+//            public void onRefresh() {
+////                getData(true);
+////                recyclerView.setPullLoadMoreCompleted();
+//
+//                if(((MainActivity)getActivity()).getNewsFragment()!=null){
+//                    ((MainActivity)getActivity()).getNewsFragment().hideSearchView();
+//                }
+//
+//
+////                ((NewsFragment)getParentFragment()).hideSearchView();
 //                handler.postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {
+////                        getNetData(true);
 //                        recyclerView.setPullLoadMoreCompleted();
+//                        ToastUtil.show(getActivity(),"已经是最新的数据！");
 //                    }
-//                }, 10);
-
-            }
-        });
+//                }, 1000);
+//            }
+//
+//            @Override
+//            public void onLoadMore() {
+//                /**
+//                 * 第一次打开该页面，没有缓存过数据，每次都获取新的数据
+//                 */
+//                if(isFirstCacheData){
+//                    getData(true);
+//                }else{
+//                    getData(false);
+//                }
+//
+////                handler.postDelayed(new Runnable() {
+////                    @Override
+////                    public void run() {
+////                        recyclerView.setPullLoadMoreCompleted();
+////                    }
+////                }, 10);
+//
+//            }
+//        });
 
     }
 
@@ -238,7 +287,7 @@ public class NewsChildFragment2 extends Fragment {
 //                    }
 
                 }
-                recyclerView.setPullLoadMoreCompleted();
+                refreshLayout.finishLoadMore();
                 adapter.setData(datalist);
             }
 

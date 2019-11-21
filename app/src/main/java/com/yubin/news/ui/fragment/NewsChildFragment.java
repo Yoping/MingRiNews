@@ -2,15 +2,23 @@ package com.yubin.news.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 import com.yubin.news.R;
 import com.yubin.news.application.Constants;
@@ -28,13 +36,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 聚合头条新闻列表
  * Created by YUBIN on 2017/4/1.
  */
 
 public class NewsChildFragment extends Fragment {
 
     private View view;
-    private PullLoadMoreRecyclerView recyclerView;
+    private RecyclerView recyclerView;
+    private SmartRefreshLayout refreshLayout;
     private NewsChildFragmentRecyclerViewAdapter adapter;
     private List<JuheNewsBean> datalist = new ArrayList<>();
     private int newsNum = 0;
@@ -98,10 +108,11 @@ public class NewsChildFragment extends Fragment {
      * 初始化界面
      */
     private void initview() {
-        recyclerView = (PullLoadMoreRecyclerView) view.findViewById(R.id.recyclerview_f_news_child);
+        recyclerView = view.findViewById(R.id.recyclerView_f_news_child);
+        refreshLayout=view.findViewById(R.id.refreshLayout_f_news_child);
         adapter = new NewsChildFragmentRecyclerViewAdapter(getActivity(), datalist);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLinearLayout();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
@@ -123,37 +134,65 @@ public class NewsChildFragment extends Fragment {
             }
         });
 
-
-        recyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onRefresh() {
-
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         datalist.clear();
                         newsNum = 0;
                         getData();
-                        recyclerView.setPullLoadMoreCompleted();
+                        refreshLayout.finishLoadMore();
                     }
                 }, 1000);
-
-
             }
+        });
 
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onLoadMore() {
-
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                       getData();
-                        recyclerView.setPullLoadMoreCompleted();
+                        getData();
+                        refreshLayout.finishRefresh();
                     }
                 }, 1000);
-
             }
         });
+
+
+//        recyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+//            @Override
+//            public void onRefresh() {
+//
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        datalist.clear();
+//                        newsNum = 0;
+//                        getData();
+//                        recyclerView.setPullLoadMoreCompleted();
+//                    }
+//                }, 1000);
+//
+//
+//            }
+//
+//            @Override
+//            public void onLoadMore() {
+//
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                       getData();
+//                        recyclerView.setPullLoadMoreCompleted();
+//                    }
+//                }, 1000);
+//
+//            }
+//        });
 
     }
 

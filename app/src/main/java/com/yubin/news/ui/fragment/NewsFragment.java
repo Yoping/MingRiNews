@@ -2,10 +2,10 @@ package com.yubin.news.ui.fragment;
 
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.Nullable;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.yubin.news.R;
 import com.yubin.news.application.Constants;
+import com.yubin.news.application.MyApplication;
 import com.yubin.news.http.toutiaoApi.ToutiaoNewsType;
 import com.yubin.news.model.juheApi.JuheNewsType;
 import com.yubin.news.ui.activity.MainActivity;
@@ -34,7 +35,7 @@ public class NewsFragment extends Fragment{
 
     private TablayoutFragmentStatePagerAdapter tablayoutFragmentStatePagerAdapter;
 
-    private boolean isUseToutiaoData=true;
+//    private boolean isUseToutiaoData=true;
 
     private float x=0;
     private float y=0;
@@ -71,7 +72,7 @@ public class NewsFragment extends Fragment{
 
         fragmentList=new ArrayList<Fragment>();
 
-        if(isUseToutiaoData){
+        if(MyApplication.isUseToutiaoData){
             for(int i=0;i<ToutiaoNewsType.TOTAL_TYPE_NUMBER;i++){
                 titleList.add(i, ToutiaoNewsType.getTypeChinese(i));
                 NewsChildFragment2 fragment=new NewsChildFragment2();

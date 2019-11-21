@@ -9,9 +9,9 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,7 +35,6 @@ import java.util.ArrayList;
  *
  */
 
-//public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
 
     /**
@@ -322,36 +321,36 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         return super.onKeyDown(keyCode, event);
     }
 
-    /**
-     * 事件分发的时候，通过触摸动作的种类控制是否隐藏底部菜单栏，以腾出更大的屏幕显示空间
-     * @param event
-     * @return
-     */
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                x=event.getX();
-                y=event.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if((event.getY()-y)> Constants.ErrorOfTouch){//下滑
-                    showAllTab();
-                }else if((y-event.getY())>Constants.ErrorOfTouch){//上滑
-                    hideAllTab();
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                x=event.getX();
-                y=event.getY();
-                break;
-        }
-
-        for(MyTouchListener listener:onTouchListeners){
-            listener.onMyTouchListener(event);
-        }
-        return super.dispatchTouchEvent(event);
-    }
+//    /**
+//     * 事件分发的时候，通过触摸动作的种类控制是否隐藏底部菜单栏，以腾出更大的屏幕显示空间
+//     * @param event
+//     * @return
+//     */
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent event) {
+//        switch (event.getAction()){
+//            case MotionEvent.ACTION_DOWN:
+//                x=event.getX();
+//                y=event.getY();
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                if((event.getY()-y)> Constants.ErrorOfTouch){//下滑
+//                    showAllTab();
+//                }else if((y-event.getY())>Constants.ErrorOfTouch){//上滑
+//                    hideAllTab();
+//                }
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                x=event.getX();
+//                y=event.getY();
+//                break;
+//        }
+//
+//        for(MyTouchListener listener:onTouchListeners){
+//            listener.onMyTouchListener(event);
+//        }
+//        return super.dispatchTouchEvent(event);
+//    }
 
 
     /**

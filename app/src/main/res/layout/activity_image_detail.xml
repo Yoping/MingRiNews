@@ -8,9 +8,9 @@
     android:background="@color/black"
     tools:context="com.yubin.news.ui.activity.ImageDetailActivity">
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager_image_detail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"></androidx.viewpager.widget.ViewPager>
 
 </LinearLayout>
