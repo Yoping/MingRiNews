@@ -15,6 +15,7 @@ import com.yubin.news.ui.customview.CustomProgressDialog;
 import com.yubin.news.utils.LogUtil;
 import com.yubin.news.utils.ToastUtil;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static android.R.attr.keycode;
@@ -47,15 +48,16 @@ public class NewsDetailActivity extends AppCompatActivity {
 //        webView.getSettings().setLoadWithOverviewMode(true);//和setUseWideViewPort(true)一起解决网页自适应问题
 //        webView.getSettings().setAppCacheEnabled(true);//是否使用缓存
 //        webView.getSettings().setDomStorageEnabled(true);//DOM Storage
+        webView.getSettings().setJavaScriptEnabled(true);
 
         url= Constants.GoToNewsUrl;
         LogUtil.i("url="+url);
 
-//        extraHeaders = new HashMap<String, String>();
-//        extraHeaders.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36");
-//        extraHeaders.put("Content-Type", "text/html; charset=utf-8");
-//        extraHeaders.put("Host", "toutiao.com");
-//        extraHeaders.put("Referer", "http://www.toutiao.com");
+        extraHeaders = new HashMap<String, String>();
+        extraHeaders.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36");
+        extraHeaders.put("Content-Type", "text/html; charset=utf-8");
+        extraHeaders.put("Host", "toutiao.com");
+        extraHeaders.put("Referer", "http://www.toutiao.com");
 //        webView.loadUrl(Constants.GoToNewsUrl,extraHeaders);
 
 
@@ -63,7 +65,8 @@ public class NewsDetailActivity extends AppCompatActivity {
 //            @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
 //                webView.loadUrl(Constants.GoToNewsUrl,extraHeaders);
-                webView.loadUrl(url);
+                webView.loadUrl(url,extraHeaders);
+//                webView.loadUrl(url);
 
                 return false;
             }
@@ -86,8 +89,8 @@ public class NewsDetailActivity extends AppCompatActivity {
                 CustomProgressDialog.dismissDialog();
             }
         });
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(url);
+
+//        webView.loadUrl(url);
 //        finish();
     }
 

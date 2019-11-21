@@ -5,4 +5,17 @@
 
     <dimen name="activity_main_tab_cion_size">16sp</dimen>
     <dimen name="activity_main_tab_title_size">10sp</dimen>
+
+    <!-- 公共设置 -->
+    <dimen name="top_title_bar_height">48dp</dimen>
+    <dimen name="top_title_iv_etcj_width">100dp</dimen>
+    <dimen name="top_title_iv_etcj_height">24dp</dimen>
+    <dimen name="top_title_bar_iv_back_width">30dp</dimen>
+    <dimen name="top_title_bar_iv_back_height">40dp</dimen>
+    <dimen name="top_title_bar_iv_back_padding">10dp</dimen>
+    <dimen name="top_title_bar_iv_right_width">40dp</dimen>
+    <dimen name="top_title_bar_iv_right_height">40dp</dimen>
+    <dimen name="top_title_bar_iv_right_padding">10dp</dimen>
+    <dimen name="top_title_bar_iv_margin_left">10dp</dimen>
+    <dimen name="top_title_bar_iv_margin_right">10dp</dimen>
 </resources>

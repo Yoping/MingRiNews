@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context="com.yubin.news.ui.activity.WebActivity">
+
+    <com.yubin.news.ui.customview.CustomTopBar
+        android:id="@+id/custom_top_title_web"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_title_bar_height"></com.yubin.news.ui.customview.CustomTopBar>
+
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
+
+
+</LinearLayout>

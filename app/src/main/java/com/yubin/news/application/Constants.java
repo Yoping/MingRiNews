@@ -14,7 +14,7 @@ public class Constants {
     /**
      * 触摸屏幕可允许的误差范围，用于控制灵敏度
      */
-    public static int ErrorOfTouch=10;
+    public static int ErrorOfTouch=20;
 
     /**
      * 易源接口API相关参数

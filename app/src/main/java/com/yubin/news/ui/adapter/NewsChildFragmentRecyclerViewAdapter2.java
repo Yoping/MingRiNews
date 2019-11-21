@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yubin.news.R;
+import com.yubin.news.application.BundleKey;
 import com.yubin.news.application.Constants;
 import com.yubin.news.model.toutiaoApi.TouTiaoNewsBean;
 import com.yubin.news.ui.activity.ImageDetailActivity;
 import com.yubin.news.ui.activity.NewsDetailActivity;
+import com.yubin.news.ui.activity.WebActivity;
 import com.yubin.news.utils.LogUtil;
 
 import java.util.List;
@@ -94,10 +96,15 @@ public class NewsChildFragmentRecyclerViewAdapter2 extends RecyclerView.Adapter<
                     intent.putExtra(Constants.TOUTIAO_IMAGE_GROUP_ID, groupId);
                     context.startActivity(intent);
                 } else {
-                    Constants.GoToNewsUrl = datalist.get(position).getUrl();
-                    LogUtil.i("GoToUrl=" + Constants.GoToNewsUrl);
-                    Intent intent = new Intent(context, NewsDetailActivity.class);
+//                    Constants.GoToNewsUrl = datalist.get(position).getUrl();
+//                    LogUtil.i("GoToUrl=" + Constants.GoToNewsUrl);
+//                    Intent intent = new Intent(context, NewsDetailActivity.class);
+//                    context.startActivity(intent);
+
+                    Intent intent=new Intent(context,WebActivity.class);
+                    intent.putExtra(BundleKey.NewsUrl,datalist.get(position).getUrl());
                     context.startActivity(intent);
+
                 }
             }
         });

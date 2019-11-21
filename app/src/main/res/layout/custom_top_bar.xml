@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:gravity="center"
+    android:id="@+id/layout_custom_top_title"
+    android:background="@color/mainColor"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:src="@mipmap/back"
+        android:id="@+id/iv_custom_top_title_left_icon_end"
+        android:layout_marginLeft="10dp"
+        android:padding="@dimen/top_title_bar_iv_back_padding"
+        android:layout_width="@dimen/top_title_bar_iv_back_width"
+        android:layout_height="@dimen/top_title_bar_iv_back_height" />
+    <ImageView
+        android:id="@+id/iv_custom_top_title_left_icon"
+        android:layout_marginLeft="10dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:text="明日头条"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:id="@+id/tv_custom_top_title_text"
+        android:gravity="center"
+        android:layout_height="@dimen/top_title_iv_etcj_height"
+        android:layout_width="@dimen/top_title_iv_etcj_width" />
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/iv_custom_top_title_right_icon"
+        android:layout_marginRight="@dimen/top_title_bar_iv_margin_right"
+        android:layout_width="30dp"
+        android:padding="@dimen/top_title_bar_iv_right_padding"
+        android:layout_height="30dp" />
+    <ImageView
+        android:id="@+id/iv_custom_top_title_right_icon_end"
+        android:layout_marginRight="@dimen/top_title_bar_iv_margin_right"
+        android:padding="@dimen/top_title_bar_iv_back_padding"
+        android:layout_width="@dimen/top_title_bar_iv_back_width"
+        android:layout_height="@dimen/top_title_bar_iv_back_height" />
+
+
+</LinearLayout>

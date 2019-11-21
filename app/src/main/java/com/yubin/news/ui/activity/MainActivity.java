@@ -321,36 +321,36 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         return super.onKeyDown(keyCode, event);
     }
 
-//    /**
-//     * 事件分发的时候，通过触摸动作的种类控制是否隐藏底部菜单栏，以腾出更大的屏幕显示空间
-//     * @param event
-//     * @return
-//     */
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent event) {
-//        switch (event.getAction()){
-//            case MotionEvent.ACTION_DOWN:
-//                x=event.getX();
-//                y=event.getY();
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                if((event.getY()-y)> Constants.ErrorOfTouch){//下滑
-//                    showAllTab();
-//                }else if((y-event.getY())>Constants.ErrorOfTouch){//上滑
-//                    hideAllTab();
-//                }
-//                break;
-//            case MotionEvent.ACTION_UP:
-//                x=event.getX();
-//                y=event.getY();
-//                break;
-//        }
-//
-//        for(MyTouchListener listener:onTouchListeners){
-//            listener.onMyTouchListener(event);
-//        }
-//        return super.dispatchTouchEvent(event);
-//    }
+    /**
+     * 事件分发的时候，通过触摸动作的种类控制是否隐藏底部菜单栏，以腾出更大的屏幕显示空间
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                x=event.getX();
+                y=event.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if((event.getY()-y)> Constants.ErrorOfTouch){//下滑
+                    showAllTab();
+                }else if((y-event.getY())>Constants.ErrorOfTouch){//上滑
+                    hideAllTab();
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                x=event.getX();
+                y=event.getY();
+                break;
+        }
+
+        for(MyTouchListener listener:onTouchListeners){
+            listener.onMyTouchListener(event);
+        }
+        return super.dispatchTouchEvent(event);
+    }
 
 
     /**

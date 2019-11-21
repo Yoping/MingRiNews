@@ -2,23 +2,35 @@ package com.yubin.news.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 import com.yubin.news.R;
 import com.yubin.news.application.Constants;
 import com.yubin.news.http.youkuApi.YoukuApiManager;
 import com.yubin.news.http.youkuApi.YoukuVideoArrayListener;
 import com.yubin.news.model.youkuApi.YoukuVideoBean;
+import com.yubin.news.ui.activity.MainActivity;
+import com.yubin.news.ui.adapter.NewsChildFragmentRecyclerViewAdapter2;
 import com.yubin.news.ui.adapter.VideoChildFragmentRecyclerViewAdapter;
 import com.yubin.news.ui.customview.DividerItemDecoration;
 import com.yubin.news.utils.LogUtil;
+import com.yubin.news.utils.ToastUtil;
 import com.yubin.news.utils.WorkerUtil;
 
 import java.util.ArrayList;
@@ -31,7 +43,8 @@ import java.util.List;
 public class VideoChildFragment extends Fragment {
 
     private View view;
-    private PullLoadMoreRecyclerView recyclerView;
+    private RecyclerView recyclerView;
+    private SmartRefreshLayout refreshLayout;
     private VideoChildFragmentRecyclerViewAdapter adapter;
     private List<YoukuVideoBean> datalist = new ArrayList<>();
     private int videoNum = 0;
@@ -52,7 +65,7 @@ public class VideoChildFragment extends Fragment {
         initview();
         setListener();
         if(!hasGetData){
-            getData();
+            getData(false);
         }else{
             recoverData();
         }
@@ -75,9 +88,9 @@ public class VideoChildFragment extends Fragment {
     /**
      * 获取网络/测试数据
      */
-    private void getData(){
+    private void getData(boolean isLoadMore){
         if(isGetApiData){
-            getNetData();
+            getNetData(isLoadMore);
         }else{
             getTestData();
         }
@@ -91,11 +104,11 @@ public class VideoChildFragment extends Fragment {
      * 初始化界面
      */
     private void initview() {
-        recyclerView = (PullLoadMoreRecyclerView) view.findViewById(R.id.recyclerview_f_video_child);
+        recyclerView = view.findViewById(R.id.recyclerView_f_video_child);
+        refreshLayout = view.findViewById(R.id.refreshLayout_f_video_child);
         adapter = new VideoChildFragmentRecyclerViewAdapter(getActivity(), datalist);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLinearLayout();
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
@@ -104,56 +117,74 @@ public class VideoChildFragment extends Fragment {
      */
     private void setListener() {
 
-        recyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh() {
-
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
                 datalist.clear();
                 videoNum = 0;
                 pageNum=1;
-                getData();
-//                recyclerView.setPullLoadMoreCompleted();
-
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        datalist.clear();
-//                        videoNum = 0;
-//                        pageNum=1;
-//                        getData();
-//                        recyclerView.setPullLoadMoreCompleted();
-//                    }
-//                }, 2000);
-
-
-            }
-
-            @Override
-            public void onLoadMore() {
-
-
-                pageNum++;
-                getData();
-//                recyclerView.setPullLoadMoreCompleted();
-
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        pageNum++;
-//                        getData();
-//                        recyclerView.setPullLoadMoreCompleted();
-//                    }
-//                }, 3000);
-
+                getData(false);
             }
         });
+
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
+                pageNum++;
+                getData(true);
+            }
+        });
+
+//        recyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+//            @Override
+//            public void onRefresh() {
+//
+//                datalist.clear();
+//                videoNum = 0;
+//                pageNum=1;
+//                getData();
+////                recyclerView.setPullLoadMoreCompleted();
+//
+////                handler.postDelayed(new Runnable() {
+////                    @Override
+////                    public void run() {
+////                        datalist.clear();
+////                        videoNum = 0;
+////                        pageNum=1;
+////                        getData();
+////                        recyclerView.setPullLoadMoreCompleted();
+////                    }
+////                }, 2000);
+//
+//
+//            }
+//
+//            @Override
+//            public void onLoadMore() {
+//
+//
+//                pageNum++;
+//                getData();
+////                recyclerView.setPullLoadMoreCompleted();
+//
+////                handler.postDelayed(new Runnable() {
+////                    @Override
+////                    public void run() {
+////                        pageNum++;
+////                        getData();
+////                        recyclerView.setPullLoadMoreCompleted();
+////                    }
+////                }, 3000);
+//
+//            }
+//        });
 
     }
 
     /**
      * 获取网络数据（优酷）
      */
-    public void getNetData() {
+    public void getNetData(boolean isLoadMore) {
 
         YoukuApiManager.getCategoryVideoArray(category, YoukuApiManager.periodOfCurrent, YoukuApiManager.OrderBy.view_count, pageNum, getVideoNumEveyTime, new YoukuVideoArrayListener() {
             @Override
@@ -162,12 +193,20 @@ public class VideoChildFragment extends Fragment {
                     datalist.add(videoList.get(i));
                 }
                 adapter.setData(datalist);
-                recyclerView.setPullLoadMoreCompleted();
+                if(!isLoadMore){
+                    refreshLayout.finishRefresh();
+                }else{
+                    refreshLayout.finishLoadMore();
+                }
             }
 
             @Override
             public void onError(String errorInfo) {
-
+                if(!isLoadMore){
+                    refreshLayout.finishRefresh();
+                }else{
+                    refreshLayout.finishLoadMore();
+                }
             }
         });
     }
