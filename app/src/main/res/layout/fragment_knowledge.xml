@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+   >
+
+    <com.app.yubin.myapp.ui.customView.CustomTitleBar
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        ></com.app.yubin.myapp.ui.customView.CustomTitleBar>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tablayout_f_news"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/mainColor"
+        app:tabIndicatorColor="@color/white"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/colorGreen"
+        app:tabTextColor="@color/white"></com.google.android.material.tabs.TabLayout>
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_f_news"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></androidx.viewpager.widget.ViewPager>
+
+
+</LinearLayout>

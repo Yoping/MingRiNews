@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 import com.youku.cloud.player.PlayerListener;
 import com.youku.cloud.player.VideoDefinition;
 import com.youku.cloud.player.YoukuPlayerView;
@@ -42,7 +41,7 @@ public class VideoDetailActivity extends AppCompatActivity {
     /**
      * 评论列表
      */
-    private PullLoadMoreRecyclerView pullLoadMoreRecyclerView;
+//    private PullLoadMoreRecyclerView pullLoadMoreRecyclerView;
     private CommentRecycleViewAdapter adapter;
 //    private List<String> datalist=new ArrayList<>();
     private List<YoukuCommentBean> datalist=new ArrayList<>();

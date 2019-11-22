@@ -20,7 +20,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 import com.yubin.news.R;
 import com.yubin.news.application.Constants;
 import com.yubin.news.base.LazyLoadFragment;
@@ -95,7 +94,7 @@ public class NewsChildFragment2 extends LazyLoadFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        LogUtil.debug(tag,"onCreateView");
+        LogUtil.debug(tag, "onCreateView");
         view = inflater.inflate(R.layout.fragment_news_child2, null);
         getArgs();
         initview();

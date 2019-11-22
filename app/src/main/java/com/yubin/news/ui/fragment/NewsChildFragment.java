@@ -19,7 +19,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 import com.yubin.news.R;
 import com.yubin.news.application.Constants;
 import com.yubin.news.http.JuheApiManager;

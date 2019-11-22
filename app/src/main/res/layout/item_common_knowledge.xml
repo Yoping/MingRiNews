@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_item_common_news"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/lv" />
+
+    <TextView
+        android:id="@+id/tv_item_commom_news"
+        android:layout_marginTop="4dp"
+        android:text="啊啊啊，非礼啊。。"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_item_commom_news_time"
+        android:text="时间：2019.10.10"
+        android:layout_marginTop="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:background="@color/mainColor"
+        android:layout_width="match_parent"
+        android:layout_height="2dp" />
+</LinearLayout>

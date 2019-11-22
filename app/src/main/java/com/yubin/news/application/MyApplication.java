@@ -30,6 +30,7 @@ import java.util.List;
 
 public class MyApplication extends Application {
 
+    public static final boolean isRelease=false;
     public static final String CLIENT_ID_WITH_AD = "bf4edfb8e9421ca6";
     public static final String CLIENT_SECRET_WITH_AD = "8de4913e21bc7da95b86b9584852c9a5";
 

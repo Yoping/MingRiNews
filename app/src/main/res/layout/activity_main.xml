@@ -22,6 +22,30 @@
 
 
         <LinearLayout
+            android:id="@+id/layout_tab0"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_icon_main_tab0"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:textSize="@dimen/activity_main_tab_cion_size" />
+
+
+            <TextView
+                android:id="@+id/tv_main_title0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="知识"
+                android:textSize="@dimen/activity_main_tab_title_size" />
+
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/layout_tab1"
             android:layout_width="0dp"
             android:layout_height="match_parent"

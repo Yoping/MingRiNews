@@ -5,7 +5,6 @@ import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,28 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 import com.yubin.news.R;
 import com.yubin.news.application.Constants;
 import com.yubin.news.base.LazyLoadFragment;
 import com.yubin.news.http.youkuApi.YoukuApiManager;
 import com.yubin.news.http.youkuApi.YoukuVideoArrayListener;
 import com.yubin.news.model.youkuApi.YoukuVideoBean;
-import com.yubin.news.ui.activity.MainActivity;
-import com.yubin.news.ui.adapter.NewsChildFragmentRecyclerViewAdapter2;
 import com.yubin.news.ui.adapter.VideoChildFragmentRecyclerViewAdapter;
 import com.yubin.news.ui.customview.CustomProgressDialog;
-import com.yubin.news.ui.customview.DividerItemDecoration;
 import com.yubin.news.utils.LogUtil;
-import com.yubin.news.utils.ToastUtil;
 import com.yubin.news.utils.WorkerUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,14 +42,14 @@ public class VideoChildFragment extends LazyLoadFragment {
     private VideoChildFragmentRecyclerViewAdapter adapter;
     private List<YoukuVideoBean> datalist = new ArrayList<>();
     private int videoNum = 0;
-    private int pageNum=1;
-    private int getVideoNumEveyTime=15;
+    private int pageNum = 1;
+    private int getVideoNumEveyTime = 15;
     private Handler handler = new Handler();
 
-    public static boolean isGetApiData=true;
-    private String category="电影";
+    public static boolean isGetApiData = true;
+    private String category = "电影";
 
-    private boolean hasGetData=false;
+    private boolean hasGetData = false;
 
     @Nullable
     @Override
@@ -72,9 +64,9 @@ public class VideoChildFragment extends LazyLoadFragment {
 
     @Override
     public void getInitData() {
-        if(!hasGetData){
-            getData(false,true);
-        }else{
+        if (!hasGetData) {
+            getData(false, true);
+        } else {
             recoverData();
         }
     }
@@ -82,10 +74,10 @@ public class VideoChildFragment extends LazyLoadFragment {
     /**
      * 获取父控件传递过来的相关参数
      */
-    private void getArgs(){
-        if(VideoFragment.isGetNetData){
-            Bundle bundle=getArguments();
-            category=bundle.getString(Constants.YOUKU_VIDEO_CATEGORY);
+    private void getArgs() {
+        if (VideoFragment.isGetNetData) {
+            Bundle bundle = getArguments();
+            category = bundle.getString(Constants.YOUKU_VIDEO_CATEGORY);
         }
 
     }
@@ -94,15 +86,15 @@ public class VideoChildFragment extends LazyLoadFragment {
     /**
      * 获取网络/测试数据
      */
-    private void getData(boolean isLoadMore,boolean needProgDialog){
-        if(isGetApiData){
-            getNetData(isLoadMore,needProgDialog);
-        }else{
+    private void getData(boolean isLoadMore, boolean needProgDialog) {
+        if (isGetApiData) {
+            getNetData(isLoadMore, needProgDialog);
+        } else {
             getTestData();
         }
     }
 
-    private void recoverData(){
+    private void recoverData() {
 
     }
 
@@ -128,8 +120,8 @@ public class VideoChildFragment extends LazyLoadFragment {
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
                 datalist.clear();
                 videoNum = 0;
-                pageNum=1;
-                getData(false,false);
+                pageNum = 1;
+                getData(false, false);
             }
         });
 
@@ -137,7 +129,7 @@ public class VideoChildFragment extends LazyLoadFragment {
             @Override
             public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
                 pageNum++;
-                getData(true,false);
+                getData(true, false);
             }
         });
 
@@ -147,36 +139,36 @@ public class VideoChildFragment extends LazyLoadFragment {
     /**
      * 获取网络数据（优酷）
      */
-    public void getNetData(boolean isLoadMore,boolean needProgDialog) {
+    public void getNetData(boolean isLoadMore, boolean needProgDialog) {
 
-        if(needProgDialog){
+        if (needProgDialog) {
             CustomProgressDialog.showDialog(getContext());
         }
         YoukuApiManager.getCategoryVideoArray(category, YoukuApiManager.periodOfCurrent, YoukuApiManager.OrderBy.view_count, pageNum, getVideoNumEveyTime, new YoukuVideoArrayListener() {
             @Override
             public void onResult(List<YoukuVideoBean> videoList) {
 
-                for(int i=0;i<videoList.size();i++){
+                for (int i = 0; i < videoList.size(); i++) {
                     datalist.add(videoList.get(i));
                 }
                 adapter.setData(datalist);
-                finishedGetData(isLoadMore,needProgDialog);
+                finishedGetData(isLoadMore, needProgDialog);
             }
 
             @Override
             public void onError(String errorInfo) {
-                finishedGetData(isLoadMore,needProgDialog);
+                finishedGetData(isLoadMore, needProgDialog);
             }
         });
     }
 
-    private void finishedGetData(boolean isLoadMore,boolean needProgDialog){
-        if(needProgDialog){
+    private void finishedGetData(boolean isLoadMore, boolean needProgDialog) {
+        if (needProgDialog) {
             CustomProgressDialog.dismissDialog();
         }
-        if(!isLoadMore){
+        if (!isLoadMore) {
             refreshLayout.finishRefresh();
-        }else{
+        } else {
             refreshLayout.finishLoadMore();
         }
     }
@@ -195,7 +187,6 @@ public class VideoChildFragment extends LazyLoadFragment {
         videoNum = datalist.size();
         adapter.setData(datalist);
     }
-
 
 
 }
