@@ -12,13 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.yubin.news.R;
 import com.yubin.news.application.BundleKey;
 import com.yubin.news.application.Constants;
 import com.yubin.news.model.toutiaoApi.TouTiaoNewsBean;
 import com.yubin.news.ui.activity.ImageDetailActivity;
-import com.yubin.news.ui.activity.NewsDetailActivity;
 import com.yubin.news.ui.activity.WebActivity;
 import com.yubin.news.utils.GlideUtil;
 import com.yubin.news.utils.LogUtil;
@@ -31,7 +29,7 @@ import java.util.List;
  * Created by YUBIN on 2017/5/5.
  */
 
-public class NewsChildFragmentRecyclerViewAdapter2 extends RecyclerView.Adapter<NewsChildFragmentRecyclerViewAdapter2.MyViewHolder> {
+public class NewsChildFgRycViewAdapterToutiao extends RecyclerView.Adapter<NewsChildFgRycViewAdapterToutiao.MyViewHolder> {
 
     private LayoutInflater layoutInflater;
     private Context context;
@@ -58,7 +56,7 @@ public class NewsChildFragmentRecyclerViewAdapter2 extends RecyclerView.Adapter<
         this.onItemClickListener = onItemClickListener;
     }
 
-    public NewsChildFragmentRecyclerViewAdapter2(Context context, List<TouTiaoNewsBean> datalist) {
+    public NewsChildFgRycViewAdapterToutiao(Context context, List<TouTiaoNewsBean> datalist) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.datalist = datalist;

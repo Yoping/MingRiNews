@@ -5,16 +5,12 @@ import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -28,9 +24,8 @@ import com.yubin.news.http.toutiaoApi.ToutiaoGetSomeNewsListener;
 import com.yubin.news.http.toutiaoApi.ToutiaoNewsType;
 import com.yubin.news.model.toutiaoApi.TouTiaoNewsBean;
 import com.yubin.news.ui.activity.MainActivity;
-import com.yubin.news.ui.adapter.NewsChildFragmentRecyclerViewAdapter2;
+import com.yubin.news.ui.adapter.NewsChildFgRycViewAdapterToutiao;
 import com.yubin.news.ui.customview.CustomProgressDialog;
-import com.yubin.news.ui.customview.DividerItemDecoration;
 import com.yubin.news.utils.LogUtil;
 import com.yubin.news.utils.SharedPreferencesUtil;
 import com.yubin.news.utils.ToastUtil;
@@ -49,7 +44,7 @@ public class NewsChildFragment2 extends LazyLoadFragment {
     private View view;
     private RecyclerView recyclerView;
     private SmartRefreshLayout refreshLayout;
-    private NewsChildFragmentRecyclerViewAdapter2 adapter;
+    private NewsChildFgRycViewAdapterToutiao adapter;
     private List<TouTiaoNewsBean> datalist = new LinkedList<>();
     private Handler handler = new Handler();
 
@@ -129,7 +124,7 @@ public class NewsChildFragment2 extends LazyLoadFragment {
     public void initview() {
         recyclerView = view.findViewById(R.id.recyclerView_f_news_child2);
         refreshLayout = view.findViewById(R.id.refreshLayout_f_news_child2);
-        adapter = new NewsChildFragmentRecyclerViewAdapter2(getActivity(), datalist);
+        adapter = new NewsChildFgRycViewAdapterToutiao(getActivity(), datalist);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 //        recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -145,7 +140,7 @@ public class NewsChildFragment2 extends LazyLoadFragment {
      */
     public void setListener() {
 
-        adapter.setOnItemClickListener(new NewsChildFragmentRecyclerViewAdapter2.OnItemClickListener() {
+        adapter.setOnItemClickListener(new NewsChildFgRycViewAdapterToutiao.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 

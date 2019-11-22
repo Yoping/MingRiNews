@@ -25,7 +25,7 @@ import java.util.Random;
  * Created by YUBIN on 2017/5/5.
  */
 
-public class NewsChildFragmentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class NewsChildFgRycViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private LayoutInflater layoutInflater;
     private Context context;
@@ -40,7 +40,7 @@ public class NewsChildFragmentRecyclerViewAdapter extends RecyclerView.Adapter<R
         this.onItemClickListener=onItemClickListener;
     }
 
-    public NewsChildFragmentRecyclerViewAdapter(Context context, List<JuheNewsBean> datalist) {
+    public NewsChildFgRycViewAdapter(Context context, List<JuheNewsBean> datalist) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.datalist = datalist;

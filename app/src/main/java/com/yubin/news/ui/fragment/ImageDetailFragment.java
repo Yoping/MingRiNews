@@ -20,6 +20,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.yubin.news.R;
 import com.yubin.news.application.Constants;
 import com.yubin.news.ui.activity.ImageDetailActivity;
+import com.yubin.news.utils.GlideUtil;
 import com.yubin.news.utils.LogUtil;
 
 /**
@@ -160,13 +161,15 @@ public class ImageDetailFragment extends Fragment {
         /**
          * 调用Glide加载网络图片到可缩放图片控件中
          */
-        Glide.with(getActivity()).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-//                ivImage.setImageBitmap(resource,true);
-                ivImage.setImageBitmap(resource);
-            }
-        });
+//        Glide.with(getActivity()).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
+//            @Override
+//            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+////                ivImage.setImageBitmap(resource,true);
+//                ivImage.setImageBitmap(resource);
+//            }
+//        });
+
+        GlideUtil.loadBigImage(getActivity(),url,ivImage);
 
         tvTitle.setText(title);
     }

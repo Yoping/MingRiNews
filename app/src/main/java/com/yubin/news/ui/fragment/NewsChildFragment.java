@@ -25,7 +25,7 @@ import com.yubin.news.http.JuheApiManager;
 import com.yubin.news.http.JuheGetNewsListener;
 import com.yubin.news.model.juheApi.JuheNewsBean;
 import com.yubin.news.model.juheApi.JuheNewsType;
-import com.yubin.news.ui.adapter.NewsChildFragmentRecyclerViewAdapter;
+import com.yubin.news.ui.adapter.NewsChildFgRycViewAdapter;
 import com.yubin.news.ui.customview.DividerItemDecoration;
 import com.yubin.news.utils.LogUtil;
 import com.yubin.news.utils.MyTestUtil;
@@ -44,7 +44,7 @@ public class NewsChildFragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private SmartRefreshLayout refreshLayout;
-    private NewsChildFragmentRecyclerViewAdapter adapter;
+    private NewsChildFgRycViewAdapter adapter;
     private List<JuheNewsBean> datalist = new ArrayList<>();
     private int newsNum = 0;
     private Handler handler = new Handler();
@@ -109,7 +109,7 @@ public class NewsChildFragment extends Fragment {
     private void initview() {
         recyclerView = view.findViewById(R.id.recyclerView_f_news_child);
         refreshLayout=view.findViewById(R.id.refreshLayout_f_news_child);
-        adapter = new NewsChildFragmentRecyclerViewAdapter(getActivity(), datalist);
+        adapter = new NewsChildFgRycViewAdapter(getActivity(), datalist);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL));
@@ -121,7 +121,7 @@ public class NewsChildFragment extends Fragment {
      */
     private void setListener() {
 
-        adapter.setOnItemClickListener(new NewsChildFragmentRecyclerViewAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new NewsChildFgRycViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 

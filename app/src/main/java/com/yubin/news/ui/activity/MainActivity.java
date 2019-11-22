@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yubin.news.R;
@@ -27,6 +28,7 @@ import com.yubin.news.ui.fragment.MyFragment;
 import com.yubin.news.ui.fragment.NewsFragment;
 import com.yubin.news.ui.fragment.VideoFragment;
 import com.yubin.news.utils.FileUtil;
+import com.yubin.news.utils.GlideUtil;
 import com.yubin.news.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -94,9 +96,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initview();
-        AnimationDrawable a=new AnimationDrawable();
-        a.start();
-
     }
 
     /**

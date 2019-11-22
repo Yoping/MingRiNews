@@ -28,9 +28,9 @@ public class GlideUtil {
         Glide.with(context)
                 .load(url)
                 .placeholder(R.mipmap.default_pic)
-                .error(R.mipmap.lv)
+                .error(R.mipmap.logo)
                 .centerCrop()
-//                .dontAnimate()
+                .dontAnimate()
                 .into(imageView);
     }
 
@@ -89,6 +89,16 @@ public class GlideUtil {
                 .load(url)
                 .placeholder(R.mipmap.default_avatar)
                 .error(R.mipmap.default_avatar)
+                .centerCrop()
+                .dontAnimate()
+                .into(imageView);
+    }
+
+    public static void loadBigImage(Context context, String url, ImageView imageView) {
+        Glide.with(context)
+                .load(url)
+                .placeholder(R.mipmap.default_pic)
+                .error(R.mipmap.logo)
                 .centerCrop()
                 .dontAnimate()
                 .into(imageView);
