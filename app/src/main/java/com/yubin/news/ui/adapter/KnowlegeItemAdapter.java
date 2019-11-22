@@ -2,6 +2,7 @@ package com.yubin.news.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yubin.news.R;
+import com.yubin.news.application.BundleKey;
 import com.yubin.news.model.palyAndroidApi.NewsBean;
+import com.yubin.news.ui.activity.WebActivity;
 import com.yubin.news.utils.TimeUtil;
 
 import java.util.ArrayList;
@@ -42,6 +45,14 @@ public class KnowlegeItemAdapter extends RecyclerView.Adapter<KnowlegeItemAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.tvTitle.setText(datalist.get(position).getTitle());
         holder.tvTime.setText(TimeUtil.changeTimeStampToDate(datalist.get(position).getPublishTime()));
+        holder.tvTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,WebActivity.class);
+                intent.putExtra(BundleKey.NewsUrl,datalist.get(position).getLink());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -50,12 +61,10 @@ public class KnowlegeItemAdapter extends RecyclerView.Adapter<KnowlegeItemAdapte
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
-        private ImageView ivImage;
         private TextView tvTitle;
         private TextView tvTime;
         MyViewHolder(View view){
             super(view);
-            ivImage=view.findViewById(R.id.iv_item_common_news);
             tvTitle=view.findViewById(R.id.tv_item_commom_news);
             tvTime=view.findViewById(R.id.tv_item_commom_news_time);
         }

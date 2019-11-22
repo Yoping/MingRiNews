@@ -20,7 +20,6 @@ import androidx.annotation.Nullable;
  */
 
 public class CustomTopBar extends LinearLayout {
-
     private View rootview;
     private View layoutBg;
     private ImageView ivLeftIcon;

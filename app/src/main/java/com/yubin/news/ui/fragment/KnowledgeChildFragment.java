@@ -11,6 +11,7 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.yubin.news.R;
 import com.yubin.news.application.BundleKey;
+import com.yubin.news.base.LazyLoadFragment;
 import com.yubin.news.http.retrofit.RetrofitUtil;
 import com.yubin.news.model.palyAndroidApi.DataBean;
 import com.yubin.news.model.palyAndroidApi.HttpCode;
@@ -19,6 +20,7 @@ import com.yubin.news.model.palyAndroidApi.NewsBean;
 import com.yubin.news.model.palyAndroidApi.NewsListBean;
 import com.yubin.news.model.palyAndroidApi.NewsListService;
 import com.yubin.news.ui.adapter.KnowlegeItemAdapter;
+import com.yubin.news.ui.customview.CustomProgressDialog;
 import com.yubin.news.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -38,8 +40,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 
-public class KnowledgeChildFragment extends Fragment {
-    private String tag="=====NewsChildFragment====";
+public class KnowledgeChildFragment extends LazyLoadFragment {
+    private String tag = "=====NewsChildFragment====";
     private View rootView;
     @BindView(R.id.refreshLayout_f_news_child)
     SmartRefreshLayout smartRefreshLayout;
@@ -52,9 +54,9 @@ public class KnowledgeChildFragment extends Fragment {
     private int publicCountId = 0;
 
     //懒加载标识符
-    private boolean isViewCreate=false;
-    private boolean isViewVisible=false;
-    private boolean isDataInited=false;
+    private boolean isViewCreate = false;
+    private boolean isViewVisible = false;
+    private boolean isDataInited = false;
 
     public static KnowledgeChildFragment newInstance(int publicCountId) {
         Bundle args = new Bundle();
@@ -70,43 +72,28 @@ public class KnowledgeChildFragment extends Fragment {
 
         if (getArguments() != null) {
             this.publicCountId = getArguments().getInt(BundleKey.publicCountId);
-            tag=tag+"=="+publicCountId;
+            tag = tag + "==" + publicCountId;
         }
-        LogUtil.debug(tag,"onCreate");
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        LogUtil.debug(tag,"onCreateView");
         rootView = inflater.inflate(R.layout.fragment_news_child, null);
         ButterKnife.bind(this, rootView);
         initview();
-        isViewCreate=true;
-        lazyLoad();
+        super.nofityViewCreate();
         return rootView;
     }
 
-
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        LogUtil.debug(tag,"setUserVisibleHint:"+isVisibleToUser);
-        isViewVisible=isVisibleToUser;
-        lazyLoad();
+    public void getInitData() {
+        pageNum = 1;
+        getData(publicCountId, pageNum, true,true);
     }
 
-    private void lazyLoad(){
-        LogUtil.debug(tag,"lazyLoad");
-        if(isViewCreate&&isViewVisible&&(!isDataInited)){
-            pageNum=1;
-            getData(publicCountId,pageNum,true);
-            isDataInited=true;
-        }
-    }
+    private void getData(int publicCountId, int pageNum, boolean isLoadMore,boolean needProgDialog) {
 
-    private void getData(int publicCountId, int pageNum, boolean isLoadMore) {
-        LogUtil.debug(tag,"getData");
         Retrofit retrofit = RetrofitUtil.getInstance();
         NewsListService service = retrofit.create(NewsListService.class);
         Observable<DataBean<NewsListBean>> observable = service.getCall(publicCountId, pageNum);
@@ -115,22 +102,21 @@ public class KnowledgeChildFragment extends Fragment {
                 .subscribe(new Observer<DataBean<NewsListBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        if(needProgDialog){
+                            CustomProgressDialog.showDialog(getContext());
+                        }
                     }
 
                     @Override
                     public void onNext(DataBean<NewsListBean> dataBean) {
+                        finishLoad(isLoadMore);
                         LogUtil.debug("=======", "onNext");
                         dataBean.printString();
                         if (dataBean.getErrorCode() == HttpCode.GET_MESSAGE_SUCCESS) {
                             if ((dataBean.getData() != null) && (dataBean.getData().getDatas() != null)) {
 
                                 if (dataBean.getData().getDatas().size() == 0) {
-                                    if (isLoadMore) {
-                                        smartRefreshLayout.finishLoadMoreWithNoMoreData();
-                                    } else {
-                                        smartRefreshLayout.finishRefreshWithNoMoreData();
-                                    }
+//                                   finishLoad(isLoadMore);
                                 }
 
                                 if (!isLoadMore) {
@@ -140,11 +126,6 @@ public class KnowledgeChildFragment extends Fragment {
                                     datalist.add(dataBean.getData().getDatas().get(i));
                                 }
                                 adapter.notifyDataSetChanged();
-                                if (isLoadMore) {
-                                    smartRefreshLayout.finishLoadMore();
-                                } else {
-                                    smartRefreshLayout.finishRefresh();
-                                }
                             }
                         } else {
                             HttpCodeUtil.notOk(dataBean);
@@ -154,13 +135,28 @@ public class KnowledgeChildFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.debug("=====", "onError");
+                        finishLoad(isLoadMore);
+                        if(needProgDialog){
+                            CustomProgressDialog.dismissDialog();
+                        }
                     }
 
                     @Override
                     public void onComplete() {
-
+                        finishLoad(isLoadMore);
+                        if(needProgDialog){
+                            CustomProgressDialog.dismissDialog();
+                        }
                     }
                 });
+    }
+
+    private void finishLoad(boolean isLoadMore) {
+        if (isLoadMore) {
+            smartRefreshLayout.finishLoadMore();
+        } else {
+            smartRefreshLayout.finishRefresh();
+        }
     }
 
     private List<NewsBean> getLocalData(List<NewsBean> list) {
@@ -178,8 +174,7 @@ public class KnowledgeChildFragment extends Fragment {
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-
-                getData(publicCountId, pageNum, false);
+                getData(publicCountId, pageNum, false,false);
             }
         });
 
@@ -187,7 +182,7 @@ public class KnowledgeChildFragment extends Fragment {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
 
-                getData(publicCountId, pageNum, true);
+                getData(publicCountId, pageNum, true,false);
             }
         });
     }

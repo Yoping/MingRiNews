@@ -44,8 +44,9 @@
         <activity android:name=".ui.activity.TestGifActivity" />
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.GuideActivity" />
-        <activity android:name=".ui.activity.OkhttpActivity"></activity>
-        <activity android:name=".ui.activity.WebActivity"></activity>
+        <activity android:name=".ui.activity.OkhttpActivity" />
+        <activity android:name=".ui.activity.WebActivity" />
+        <activity android:name=".ui.activity.KnowledgeActivity"></activity>
     </application>
 
 </manifest>

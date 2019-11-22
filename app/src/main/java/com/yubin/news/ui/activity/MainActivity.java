@@ -39,10 +39,6 @@ import java.util.ArrayList;
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
 
     /**
-     * 技术文章主界面
-     */
-    private KnowledgeFragment knowledgeFragment;
-    /**
      * 新闻主界面
      */
     private NewsFragment newsFragment;
@@ -66,7 +62,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
      */
     private View layoutMain;
     private View layoutTab;
-    private View layoutTab0;
     private View layoutTab1;
     private View layoutTab2;
     private View layoutTab3;
@@ -75,7 +70,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     /**
      * Tab中的字体图标
      */
-    private TextView tvIconTab0;
     private TextView tvIconTab1;
     private TextView tvIconTab2;
     private TextView tvIconTab3;
@@ -84,7 +78,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     /**
      * Tab中的文字
      */
-    private TextView tvTitle0;
     private TextView tvTitle1;
     private TextView tvTitle2;
     private TextView tvTitle3;
@@ -113,37 +106,31 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         layoutMain=findViewById(R.id.activity_main);
         layoutTab=findViewById(R.id.layout_tab);
-        layoutTab0=findViewById(R.id.layout_tab0);
         layoutTab1=findViewById(R.id.layout_tab1);
         layoutTab2=findViewById(R.id.layout_tab2);
         layoutTab3=findViewById(R.id.layout_tab3);
         layoutTab4=findViewById(R.id.layout_tab4);
 
-        tvIconTab0=(TextView) findViewById(R.id.tv_icon_main_tab0);
         tvIconTab1=(TextView) findViewById(R.id.tv_icon_main_tab1);
         tvIconTab2=(TextView)findViewById(R.id.tv_icon_main_tab2);
         tvIconTab3=(TextView)findViewById(R.id.tv_icon_main_tab3);
         tvIconTab4=(TextView)findViewById(R.id.tv_icon_main_tab4);
 
-        tvIconTab0.setTypeface(getTypeface());
         tvIconTab1.setTypeface(getTypeface());
         tvIconTab2.setTypeface(getTypeface());
         tvIconTab3.setTypeface(getTypeface());
         tvIconTab4.setTypeface(getTypeface());
 
-        tvIconTab0.setText("\ue63A");
         tvIconTab1.setText("\ue63A");
         tvIconTab2.setText("\ue635");
         tvIconTab3.setText("\ue619");
         tvIconTab4.setText("\ue636");
 
-        tvTitle0=(TextView)findViewById(R.id.tv_main_title0);
         tvTitle1=(TextView)findViewById(R.id.tv_main_title1);
         tvTitle2=(TextView)findViewById(R.id.tv_main_title2);
         tvTitle3=(TextView)findViewById(R.id.tv_main_title3);
         tvTitle4=(TextView)findViewById(R.id.tv_main_title4);
 
-        layoutTab0.setOnClickListener(this);
         layoutTab1.setOnClickListener(this);
         layoutTab2.setOnClickListener(this);
         layoutTab3.setOnClickListener(this);
@@ -226,18 +213,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     transaction.show(myFragment);
                 }
                 break;
-            case 4:
-                currentTab=4;
-                tvIconTab0.setTextColor(getResources().getColor(R.color.black));
-                tvTitle0.setTextColor(getResources().getColor(R.color.black));
-                if (knowledgeFragment == null) {
-                    knowledgeFragment = new KnowledgeFragment();
-                    transaction
-                            .add(R.id.main_frame, knowledgeFragment);
-                } else {
-                    transaction.show(knowledgeFragment);
-                }
-                break;
         }
 
         transaction.commit();
@@ -248,13 +223,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
      */
     private void cleanChoise() {
 
-        tvIconTab0.setTextColor(getResources().getColor(R.color.white));
         tvIconTab1.setTextColor(getResources().getColor(R.color.white));
         tvIconTab2.setTextColor(getResources().getColor(R.color.white));
         tvIconTab3.setTextColor(getResources().getColor(R.color.white));
         tvIconTab4.setTextColor(getResources().getColor(R.color.white));
 
-        tvTitle0.setTextColor(getResources().getColor(R.color.white));
         tvTitle1.setTextColor(getResources().getColor(R.color.white));
         tvTitle2.setTextColor(getResources().getColor(R.color.white));
         tvTitle3.setTextColor(getResources().getColor(R.color.white));
@@ -266,9 +239,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
      * @param transaction
      */
     private void hideAllFragment(FragmentTransaction transaction) {
-        if (knowledgeFragment != null) {
-            transaction.hide(knowledgeFragment);
-        }
         if (newsFragment != null) {
             transaction.hide(newsFragment);
         }
@@ -314,10 +284,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.layout_tab0:
-                showFrame(4);
-                break;
-
             case R.id.layout_tab1:
                 showFrame(0);
                 break;

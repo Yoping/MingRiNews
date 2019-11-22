@@ -15,6 +15,7 @@ import com.yubin.news.model.palyAndroidApi.NewsTermBean;
 import com.yubin.news.model.palyAndroidApi.NewsTermListService;
 import com.yubin.news.ui.adapter.KnowledgeTablayoutAdapter;
 import com.yubin.news.ui.adapter.TablayoutFragmentStatePagerAdapter;
+import com.yubin.news.ui.customview.CustomTopBar;
 import com.yubin.news.utils.LogUtil;
 import com.yubin.news.utils.TabLayoutUtil;
 
@@ -40,41 +41,45 @@ public class KnowledgeFragment extends Fragment {
 
     private View rootView;
     private KnowledgeTablayoutAdapter tablayoutAdapter;
-    @BindView(R.id.tablayout_f_news)
+    @BindView(R.id.custom_top_bar_f_knowledge)
+    CustomTopBar customTopBar;
+    @BindView(R.id.tablayout_f_knowledge)
     TabLayout tabLayout;
-    @BindView(R.id.viewpager_f_news)
+    @BindView(R.id.viewpager_f_knowledge)
     ViewPager viewPager;
 
     private List<Fragment> fragmentList = new ArrayList<>();
     private List<NewsTermBean> newsTermBeanList = new ArrayList<>();
 
-    public KnowledgeFragment() {
-    }
-
-    public static NewsFragment newInstance() {
+    public static KnowledgeFragment newInstance() {
         Bundle args = new Bundle();
-        NewsFragment fragment = new NewsFragment();
+        KnowledgeFragment fragment = new KnowledgeFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_news, null);
+        rootView = inflater.inflate(R.layout.fragment_knowledge, null);
         ButterKnife.bind(this, rootView);
-//        initview();
+        setListener();
         getData();
         return rootView;
     }
 
 
-    private void initview() {
+    private void setListener(){
+        customTopBar.getLeftIconEnd().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+    }
+
+    private void initLocalview() {
         String[] titleList = {"秦时明月", "百步飞剑", "夜尽天明", "诸子百家", "沧海横流", "亡秦必楚", "天行九歌"};
         for (int i = 0; i < titleList.length; i++) {
             NewsTermBean newsTermBean = new NewsTermBean();

@@ -81,7 +81,7 @@ public class NewsChildFragmentRecyclerViewAdapter2 extends RecyclerView.Adapter<
 
         if (getItemViewType(position) == viewType_placeholder) {
             holder.tvLine.setVisibility(View.VISIBLE);
-            ((MyViewHolder) holder).layoutNews.setVisibility(View.GONE);
+            holder.layoutNews.setVisibility(View.GONE);
             return;
         }
 

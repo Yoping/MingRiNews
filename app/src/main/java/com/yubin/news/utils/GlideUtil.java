@@ -30,7 +30,7 @@ public class GlideUtil {
                 .placeholder(R.mipmap.default_pic)
                 .error(R.mipmap.lv)
                 .centerCrop()
-                .dontAnimate()
+//                .dontAnimate()
                 .into(imageView);
     }
 

@@ -4,27 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-   >
+    android:orientation="vertical">
 
-    <com.app.yubin.myapp.ui.customView.CustomTitleBar
+    <com.yubin.news.ui.customview.CustomTopBar
+        android:id="@+id/custom_top_bar_f_knowledge"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        ></com.app.yubin.myapp.ui.customView.CustomTitleBar>
+        android:layout_height="48dp"></com.yubin.news.ui.customview.CustomTopBar>
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tablayout_f_news"
+        android:id="@+id/tablayout_f_knowledge"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/mainColor"
         app:tabIndicatorColor="@color/white"
         app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/colorGreen"
+        app:tabSelectedTextColor="@color/green"
         app:tabTextColor="@color/white"></com.google.android.material.tabs.TabLayout>
 
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager_f_news"
+        android:id="@+id/viewpager_f_knowledge"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></androidx.viewpager.widget.ViewPager>
 

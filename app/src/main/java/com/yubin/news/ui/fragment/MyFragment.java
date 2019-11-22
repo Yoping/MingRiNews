@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.yubin.news.R;
 import com.yubin.news.application.Constants;
+import com.yubin.news.ui.activity.KnowledgeActivity;
 import com.yubin.news.ui.activity.MainActivity;
 import com.yubin.news.ui.customview.AvatarImageView;
 import com.yubin.news.utils.Bimp;
@@ -115,6 +116,15 @@ public class MyFragment extends Fragment {
                 getActivity().startActivityForResult(intent, MyFragment.SELECT_IMAGE_ACTION_CODE);
             }
         });
+
+        tvIconFunc1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),KnowledgeActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+
     }
 
     public void setAvatar(String imagePath) {

@@ -86,10 +86,6 @@ public class NewsChildFragment2 extends LazyLoadFragment {
     private int biggestCacheKey = 0;
     private boolean isFirstCacheData = true;
 
-    //懒加载标识符
-    private boolean isViewCreate = false;
-    private boolean isViewVisible = false;
-    private boolean isDataInited = false;
 
     @Nullable
     @Override
@@ -136,9 +132,7 @@ public class NewsChildFragment2 extends LazyLoadFragment {
         adapter = new NewsChildFragmentRecyclerViewAdapter2(getActivity(), datalist);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
         if (datalist.size() == 0) {
             TouTiaoNewsBean temp = new TouTiaoNewsBean();
             temp.setTitle("占位符");

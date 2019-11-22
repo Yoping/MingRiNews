@@ -15,14 +15,20 @@
     <!-- 背景颜色 -->
     <color name="background">#fff0f0f0</color>
 
-    <color name="blue">#ff0085d0</color>
     <color name="light_blue">#ff40c4ff</color>
 
     <!-- 灰色，用于浅色字体 -->
     <color name="grey">#ff555555</color>
-    <color name="white">#ffffffff</color>
-    <color name="black">#ff000000</color>
-    <color name="red">#ffff0000</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+    <color name="red">#f00</color>
+    <color name="gray">#A5B0B1</color>
+    <color name="orange">#FF6A00</color>
+    <color name="yellow">#FFCC01</color>
+    <color name="green">#00ff00</color>
+    <color name="blue_light">#52B3F9</color>
+    <color name="blue">#ff0085d0</color>
+    <color name="touming">#00ffffff</color>
     <!-- 浅黑色，用于深色字体 -->
     <color name="light_black">#ff7a7a7a</color>
 
