@@ -136,7 +136,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         layoutTab4.setOnClickListener(this);
 
         fragmentManager=getSupportFragmentManager();
-        showFrame(0);
+        showFrame(2);
 
     }
 

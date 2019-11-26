@@ -57,16 +57,13 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     //网络请求框架
 //    implementation 'com.squareup.okhttp3:okhttp:3.6.0'
-
     //优酷SDK
     implementation 'com.alibaba:fastjson:1.1.56.android'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation(name: 'YoukuPlayerOpenSDK-release', ext: 'aar')
-
     //下拉刷新库
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'  //1.0.5及以前版本的老用户升级需谨慎，API改动过大
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'  //没有使用特殊Header，可以不加这行
-
     //butterKnife
     implementation 'com.jakewharton:butterknife:10.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
@@ -83,4 +80,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'//rxjava配套库
     //拦截器
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    //磁盘缓存库
+    implementation 'com.jakewharton:disklrucache:2.0.2'
 }

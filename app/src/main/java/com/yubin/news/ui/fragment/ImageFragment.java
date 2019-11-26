@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -22,7 +21,7 @@ import com.yubin.news.R;
 import com.yubin.news.http.toutiaoApi.ToutiaoApiManager;
 import com.yubin.news.http.toutiaoApi.ToutiaoGetImageStoryArrayListener;
 import com.yubin.news.model.toutiaoApi.ToutiaoImageStoryBean;
-import com.yubin.news.ui.adapter.ImageFragmentRecyclerViewAdapter;
+import com.yubin.news.ui.adapter.ImageFgRecyViewAdapter;
 import com.yubin.news.ui.customview.DividerGridItemDecoration;
 
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class ImageFragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private SmartRefreshLayout refreshLayout;
-    private ImageFragmentRecyclerViewAdapter adapter;
+    private ImageFgRecyViewAdapter adapter;
     private List<ToutiaoImageStoryBean> datalist=new ArrayList<>();
     private Handler handler=new Handler();
 
@@ -54,7 +53,7 @@ public class ImageFragment extends Fragment {
     private void initview(){
         recyclerView = view.findViewById(R.id.recyclerView_f_image);
         refreshLayout=view.findViewById(R.id.refreshLayout_f_image);
-        adapter=new ImageFragmentRecyclerViewAdapter(getActivity(),datalist);
+        adapter=new ImageFgRecyViewAdapter(getActivity(),datalist);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
         recyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));

@@ -29,15 +29,21 @@ import java.util.List;
  */
 
 public class MyApplication extends Application {
+    //全局实例
+    public static List<Activity> activityList;
+    public static MyApplication instance;
+    private static RequestQueue requestQueue;
+    private static Gson gson;
 
-    public static final boolean isRelease=false;
+    //全局配置信息
+    public static final boolean isRelease = false;
+    public static boolean isUseToutiaoData = true;//使用头条的数据
+    public static boolean isUseNetImageList=false;//使用网络图片列表
     public static final String CLIENT_ID_WITH_AD = "bf4edfb8e9421ca6";
     public static final String CLIENT_SECRET_WITH_AD = "8de4913e21bc7da95b86b9584852c9a5";
 
-    public static List<Activity> activityList;
-    public static MyApplication instance;
 
-    public static boolean isUseToutiaoData=true;
+
 
     public MyApplication() {
     }
@@ -45,21 +51,22 @@ public class MyApplication extends Application {
     public static MyApplication getInstance() {
         return instance;
     }
-    public static Context getContext(){
+
+    public static Context getContext() {
         return instance.getApplicationContext();
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        instance=this;
+        instance = this;
         SharedPreferencesUtil.getInstance();
         activityList = new LinkedList<Activity>();
         YoukuPlayerConfig.setLog(true);
         /**设置client_id和client_secret*/
         YoukuPlayerConfig.setClientIdAndSecret(CLIENT_ID_WITH_AD, CLIENT_SECRET_WITH_AD);
         /****sdk初始化*/
-//        YoukuPlayerConfig.onInitial((Application) getApplicationContext());
+        YoukuPlayerConfig.onInitial((Application) getApplicationContext());
         initVolley();
     }
 
@@ -83,8 +90,6 @@ public class MyApplication extends Application {
         });
     }
 
-    private static RequestQueue requestQueue;
-    private static Gson gson;
 
     public static RequestQueue getRequestQueue() {
         return requestQueue;
