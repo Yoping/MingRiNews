@@ -112,7 +112,8 @@ public class NewsChildFgRycViewAdapterToutiao extends RecyclerView.Adapter<NewsC
         });
 
         holder.tvTitle.setText(datalist.get(position).getTitle());
-        holder.tvTime.setText(datalist.get(position).getSource() + "   " + TimeUtil.changeIntTimeToString(datalist.get(position).getPublish_time()));
+        //头条返回的时间以秒为单位
+        holder.tvTime.setText(datalist.get(position).getSource() + "   " + TimeUtil.changeTimeStampToDate(datalist.get(position).getPublish_time()*1000));
 
         if (getItemViewType(position) == viewType_GalleryImage) {
             holder.ivBigImage.setVisibility(View.VISIBLE);

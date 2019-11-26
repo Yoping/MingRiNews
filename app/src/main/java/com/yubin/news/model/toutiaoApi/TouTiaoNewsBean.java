@@ -12,7 +12,7 @@ public class TouTiaoNewsBean {
 
     private String title;
     private String source;
-    private int publish_time;
+    private long publish_time;
     private String url;
     private String display_url;
     private List<ToutiaoSubImageBean> image_list;
@@ -84,11 +84,11 @@ public class TouTiaoNewsBean {
         this.source = source;
     }
 
-    public int getPublish_time() {
+    public long getPublish_time() {
         return publish_time;
     }
 
-    public void setPublish_time(int publish_time) {
+    public void setPublish_time(long publish_time) {
         this.publish_time = publish_time;
     }
 

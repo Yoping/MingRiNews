@@ -62,6 +62,7 @@ public class ImageFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -87,32 +88,6 @@ public class ImageFragment extends Fragment {
             }
         });
 
-//        pullLoadMoreRecyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
-//            @Override
-//            public void onRefresh() {
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        datalist.clear();
-//                        adapter.notifyDataSetChanged();
-//                        getData();
-//                        pullLoadMoreRecyclerView.setPullLoadMoreCompleted();
-//                    }
-//                },1000);
-//            }
-//
-//            @Override
-//            public void onLoadMore() {
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        getData();
-////                        pullLoadMoreRecyclerView.refresh();
-//                        pullLoadMoreRecyclerView.setPullLoadMoreCompleted();
-//                    }
-//                },1000);
-//            }
-//        });
         getData();
 
     }

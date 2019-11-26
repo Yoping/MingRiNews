@@ -171,6 +171,8 @@ public class ImageDetailFragment extends Fragment {
 
         GlideUtil.loadBigImage(getActivity(),url,ivImage);
 
+        LogUtil.debug("=====loadimage=====",title+"==="+url);
+
         tvTitle.setText(title);
     }
 

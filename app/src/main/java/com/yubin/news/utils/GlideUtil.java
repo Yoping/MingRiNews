@@ -4,7 +4,11 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.yubin.news.R;
+import com.yubin.news.ui.customview.CustomProgressDialog;
 
 /**
  * @author:YUBIN
@@ -102,5 +106,18 @@ public class GlideUtil {
                 .centerCrop()
                 .dontAnimate()
                 .into(imageView);
+//                .into(new GlideDrawableImageViewTarget(imageView){
+//                    @Override
+//                    public void onStart() {
+//                        super.onStart();
+//                        CustomProgressDialog.showDialog(context);
+//                    }
+//
+//                    @Override
+//                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
+//                        super.onResourceReady(resource, animation);
+//                        CustomProgressDialog.dismissDialog();
+//                    }
+//                });
     }
 }
