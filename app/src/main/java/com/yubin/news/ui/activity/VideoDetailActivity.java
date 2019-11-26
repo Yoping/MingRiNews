@@ -18,6 +18,7 @@ import com.yubin.news.R;
 import com.yubin.news.application.Constants;
 import com.yubin.news.model.youkuApi.YoukuCommentBean;
 import com.yubin.news.ui.adapter.CommentRecycleViewAdapter;
+import com.yubin.news.ui.customview.CustomTopBar;
 import com.yubin.news.utils.LogUtil;
 import com.yubin.news.utils.MyTestUtil;
 import com.yubin.news.utils.WorkerUtil;
@@ -41,11 +42,8 @@ public class VideoDetailActivity extends AppCompatActivity {
     /**
      * 评论列表
      */
-//    private PullLoadMoreRecyclerView pullLoadMoreRecyclerView;
     private CommentRecycleViewAdapter adapter;
-//    private List<String> datalist=new ArrayList<>();
     private List<YoukuCommentBean> datalist=new ArrayList<>();
-
     private View layoutHeader;
     private TextView tvUp;
 
@@ -73,8 +71,6 @@ public class VideoDetailActivity extends AppCompatActivity {
      * 初始化界面
      */
     private void initview(){
-
-
 //        layoutHeader=findViewById(R.id.layout_custom_comment_head);
 //        tvUp=(TextView)findViewById(R.id.tv_c_comment_head_view_up_count);
 
@@ -90,50 +86,6 @@ public class VideoDetailActivity extends AppCompatActivity {
             youkuPlayerView.playYoukuVideo(videoId);
         }
 
-//        pullLoadMoreRecyclerView=(PullLoadMoreRecyclerView)findViewById(R.id.recyclerview_video_detail);
-//        getData();
-//
-//        adapter=new CommentRecycleViewAdapter(VideoDetailActivity.this,datalist);
-//        pullLoadMoreRecyclerView.setAdapter(adapter);
-//        pullLoadMoreRecyclerView.setLinearLayout();
-//        pullLoadMoreRecyclerView.setPullRefreshEnable(false);
-//        pullLoadMoreRecyclerView.setPushRefreshEnable(false);
-//
-//        pullLoadMoreRecyclerView.addItemDecoration(new DividerItemDecoration(VideoDetailActivity.this, LinearLayout.VERTICAL));
-//
-//
-//
-//
-//        pullLoadMoreRecyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
-//            @Override
-//            public void onRefresh() {
-//
-//            }
-//
-//            @Override
-//            public void onLoadMore() {
-////                handler.postDelayed(new Runnable() {
-////                    @Override
-////                    public void run() {
-////                        initdata();
-////                        adapter.notifyDataSetChanged();
-////                        pullLoadMoreRecyclerView.setPullLoadMoreCompleted();
-////                    }
-////                },500);
-//
-////                if(datalist.size()>150){
-////                    ToastUtil.show(VideoDetailActivity.this,"没有更多的数据了...");
-////                    pullLoadMoreRecyclerView.setPullLoadMoreCompleted();
-////                    return;
-////                }
-////                getData();
-////                adapter.notifyDataSetChanged();
-////                pullLoadMoreRecyclerView.setPullLoadMoreCompleted();
-//
-//
-//
-//            }
-//        });
     }
 
     /**
